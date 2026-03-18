@@ -1,0 +1,10 @@
+{
+  "name": "practical-typography",
+  "version": "1.0.0",
+  "description": "Helps agents produce well-typeset text by applying key rules from Butterick's Practical Typography. Covers proper punctuation, emphasis, spacing, capitalization, layout, and font guidance.",
+  "author": {
+    "name": "mkw"
+  },
+  "license": "MIT",
+  "keywords": ["typography", "formatting", "prose", "documentation"]
+}

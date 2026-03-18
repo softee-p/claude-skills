@@ -1,0 +1,44 @@
+{
+  "name": "claude-skills",
+  "owner": {
+    "name": "mkw"
+  },
+  "metadata": {
+    "description": "A collection of plugins and skills for Claude Code",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "rwsdk-toolkit",
+      "source": "./plugins/rwsdk-toolkit",
+      "description": "Comprehensive RedwoodSDK development toolkit — documentation lookup, frontend debugging, shadcn/ui management, production auditing, and doc sync. Includes skills and slash commands for building full-stack React Server Component apps on Cloudflare Workers.",
+      "version": "1.0.0",
+      "category": "frameworks",
+      "tags": ["redwoodsdk", "rwsdk", "cloudflare-workers", "rsc", "fullstack"]
+    },
+    {
+      "name": "practical-typography",
+      "source": "./plugins/practical-typography",
+      "description": "Helps agents produce well-typeset text by applying key rules from Butterick's Practical Typography. Covers proper punctuation, emphasis, spacing, capitalization, layout, and font guidance.",
+      "version": "1.0.0",
+      "category": "writing",
+      "tags": ["typography", "formatting", "prose", "documentation"]
+    },
+    {
+      "name": "transformersjs-docs",
+      "source": "./plugins/transformersjs-docs",
+      "description": "Guidance for building applications with Transformers.js — run ML models (NLP, vision, audio) directly in the browser or Node.js. Covers React, Next.js, vanilla JS, and Node.js patterns.",
+      "version": "1.0.0",
+      "category": "machine-learning",
+      "tags": ["transformers.js", "machine-learning", "browser-ml", "inference", "huggingface"]
+    },
+    {
+      "name": "wsl-chrome-patch",
+      "source": "./plugins/wsl-chrome-patch",
+      "description": "Patch Claude Code binary to enable the /chrome slash command on WSL2. Fixes 'not supported in WSL' errors and Chrome browser tool connectivity issues.",
+      "version": "1.0.0",
+      "category": "utilities",
+      "tags": ["wsl", "wsl2", "chrome", "browser", "patch"]
+    }
+  ]
+}
