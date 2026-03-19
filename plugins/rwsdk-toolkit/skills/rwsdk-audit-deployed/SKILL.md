@@ -18,7 +18,7 @@ Methodically audit a deployed RedwoodSDK application on Cloudflare Workers.
 
 ## Prerequisites
 
-- **cloudflare-observability MCP** - For querying worker logs and metrics
+- **cloudflare-observability MCP** (required) - This skill depends on the `cloudflare-observability` MCP server for querying worker logs and metrics. The MCP must be configured in your Claude Code settings with valid Cloudflare API credentials. Without it, Phases 1-5 cannot execute.
 - **rwsdk-docs skill** - For verifying code against best practices
 
 ## Audit Workflow

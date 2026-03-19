@@ -11,13 +11,13 @@ action: warn
 Before using Chrome browser tools, run the WSL patch status check:
 
 ```
-bash ~/.claude/skills/wsl-chrome-patch/scripts/patch_wsl_chrome.sh check
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/patch_wsl_chrome.sh check
 ```
 
 If status is UNPATCHED, run:
 
 ```
-bash ~/.claude/skills/wsl-chrome-patch/scripts/patch_wsl_chrome.sh patch
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/patch_wsl_chrome.sh patch
 ```
 
 Then tell the user to restart Claude Code.

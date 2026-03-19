@@ -12,7 +12,7 @@ description: >
 
 Apply the following typography rules whenever you produce or edit text.
 These rules are adapted from Butterick's *Practical Typography*
-(practicaltypography.com). Consult `references/typography-rules-complete.md`
+(practicaltypography.com). Consult `${CLAUDE_PLUGIN_ROOT}/skills/practical-typography/references/typography-rules-complete.md`
 for detailed explanations, character codes, and implementation guidance.
 
 ## Text & Punctuation Rules

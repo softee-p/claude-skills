@@ -15,14 +15,14 @@ Detect the framework from the user's project or ask if unclear:
 
 | Detection Method | Framework | Reference to Read |
 |------------------|-----------|-------------------|
-| `package.json` has `react` + `vite` | React (Vite) | `references/react-tutorial.md` |
-| `package.json` has `next` | Next.js | `references/nextjs-tutorial.md` |
-| `package.json` exists, no framework | Node.js | `references/nodejs-tutorial.md` |
-| No `package.json`, HTML files only | Vanilla JS | `references/vanilla-js-tutorial.md` |
-| User mentions React/Vite | React (Vite) | `references/react-tutorial.md` |
-| User mentions Next.js | Next.js | `references/nextjs-tutorial.md` |
-| User mentions Node/Express/server | Node.js | `references/nodejs-tutorial.md` |
-| User mentions plain JS/HTML/no framework | Vanilla JS | `references/vanilla-js-tutorial.md` |
+| `package.json` has `react` + `vite` | React (Vite) | `${CLAUDE_PLUGIN_ROOT}/skills/transformersjs-docs/references/react-tutorial.md` |
+| `package.json` has `next` | Next.js | `${CLAUDE_PLUGIN_ROOT}/skills/transformersjs-docs/references/nextjs-tutorial.md` |
+| `package.json` exists, no framework | Node.js | `${CLAUDE_PLUGIN_ROOT}/skills/transformersjs-docs/references/nodejs-tutorial.md` |
+| No `package.json`, HTML files only | Vanilla JS | `${CLAUDE_PLUGIN_ROOT}/skills/transformersjs-docs/references/vanilla-js-tutorial.md` |
+| User mentions React/Vite | React (Vite) | `${CLAUDE_PLUGIN_ROOT}/skills/transformersjs-docs/references/react-tutorial.md` |
+| User mentions Next.js | Next.js | `${CLAUDE_PLUGIN_ROOT}/skills/transformersjs-docs/references/nextjs-tutorial.md` |
+| User mentions Node/Express/server | Node.js | `${CLAUDE_PLUGIN_ROOT}/skills/transformersjs-docs/references/nodejs-tutorial.md` |
+| User mentions plain JS/HTML/no framework | Vanilla JS | `${CLAUDE_PLUGIN_ROOT}/skills/transformersjs-docs/references/vanilla-js-tutorial.md` |
 
 **If framework is unclear:** Ask the user which environment they're using before proceeding.
 
@@ -30,25 +30,25 @@ Detect the framework from the user's project or ask if unclear:
 
 Once the framework is identified, read the corresponding reference file:
 
-- **React (Vite)** → Read `references/react-tutorial.md`
+- **React (Vite)** → Read `${CLAUDE_PLUGIN_ROOT}/skills/transformersjs-docs/references/react-tutorial.md`
   - Web Worker setup with Vite
   - React hooks for worker communication
   - Progress tracking with useState
   - Component-based UI patterns
 
-- **Vanilla JavaScript** → Read `references/vanilla-js-tutorial.md`
+- **Vanilla JavaScript** → Read `${CLAUDE_PLUGIN_ROOT}/skills/transformersjs-docs/references/vanilla-js-tutorial.md`
   - CDN import (no build tools)
   - Direct DOM manipulation
   - Simple event-based architecture
   - No Web Worker (simpler but blocks UI)
 
-- **Next.js** → Read `references/nextjs-tutorial.md`
+- **Next.js** → Read `${CLAUDE_PLUGIN_ROOT}/skills/transformersjs-docs/references/nextjs-tutorial.md`
   - Choose client-side OR server-side inference
   - Client: Web Worker + webpack config for browser
   - Server: Route Handlers + external packages config
   - App Router patterns
 
-- **Node.js** → Read `references/nodejs-tutorial.md`
+- **Node.js** → Read `${CLAUDE_PLUGIN_ROOT}/skills/transformersjs-docs/references/nodejs-tutorial.md`
   - ESM vs CommonJS module syntax
   - HTTP server API pattern
   - Model caching configuration
@@ -110,7 +110,7 @@ env.allowLocalModels = false;        // Skip local check (browser)
 
 | File | When to Use |
 |------|-------------|
-| `references/react-tutorial.md` | React + Vite projects, SPAs |
-| `references/vanilla-js-tutorial.md` | Plain HTML/JS, no build tools |
-| `references/nextjs-tutorial.md` | Next.js App Router (client or server) |
-| `references/nodejs-tutorial.md` | Node.js servers, REST APIs |
+| `${CLAUDE_PLUGIN_ROOT}/skills/transformersjs-docs/references/react-tutorial.md` | React + Vite projects, SPAs |
+| `${CLAUDE_PLUGIN_ROOT}/skills/transformersjs-docs/references/vanilla-js-tutorial.md` | Plain HTML/JS, no build tools |
+| `${CLAUDE_PLUGIN_ROOT}/skills/transformersjs-docs/references/nextjs-tutorial.md` | Next.js App Router (client or server) |
+| `${CLAUDE_PLUGIN_ROOT}/skills/transformersjs-docs/references/nodejs-tutorial.md` | Node.js servers, REST APIs |
