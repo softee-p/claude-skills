@@ -1,0 +1,10 @@
+{
+  "name": "autoresearch",
+  "version": "1.0.0",
+  "description": "Auto-improve any Claude skill on autopilot. Uses iterative testing with a yes/no scoring checklist to make small prompt changes, keeping what works and reverting what doesn't. Inspired by Andrej Karpathy's autoresearch method.",
+  "author": {
+    "name": "mkw"
+  },
+  "license": "MIT",
+  "keywords": ["autoresearch", "skill-improvement", "optimization", "testing", "autopilot"]
+}
