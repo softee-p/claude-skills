@@ -27,13 +27,13 @@ Run `scripts/patch_wsl_chrome.sh` via Bash:
 
 ```bash
 # Check current status
-bash ~/.claude/skills/wsl-chrome-patch/scripts/patch_wsl_chrome.sh check
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/patch_wsl_chrome.sh check
 
 # Apply patch
-bash ~/.claude/skills/wsl-chrome-patch/scripts/patch_wsl_chrome.sh patch
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/patch_wsl_chrome.sh patch
 
 # Restore original binary
-bash ~/.claude/skills/wsl-chrome-patch/scripts/patch_wsl_chrome.sh restore
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/patch_wsl_chrome.sh restore
 ```
 
 ## After a Claude Code update

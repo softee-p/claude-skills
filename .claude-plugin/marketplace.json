@@ -39,6 +39,14 @@
       "version": "1.0.0",
       "category": "utilities",
       "tags": ["wsl", "wsl2", "chrome", "browser", "patch"]
+    },
+    {
+      "name": "autoresearch",
+      "source": "./plugins/autoresearch",
+      "description": "Autonomous skill improvement via iterative testing. Run autoresearch on any skill to test it against a yes/no scoring checklist, make one small prompt change per round, keep what works, and revert what doesn't. Based on Andrej Karpathy's autoresearch method.",
+      "version": "0.1.0",
+      "category": "utilities",
+      "tags": ["autoresearch", "skill-improvement", "optimization", "testing", "autopilot"]
     }
   ]
 }
