@@ -1,7 +1,7 @@
 {
   "name": "autoresearch",
-  "version": "1.0.0",
-  "description": "Auto-improve any Claude skill on autopilot. Uses iterative testing with a yes/no scoring checklist to make small prompt changes, keeping what works and reverting what doesn't. Inspired by Andrej Karpathy's autoresearch method.",
+  "version": "0.1.0",
+  "description": "Autonomous skill improvement via iterative testing. Run autoresearch on any skill to test it against a yes/no scoring checklist, make one small prompt change per round, keep what works, and revert what doesn't. Based on Andrej Karpathy's autoresearch method.",
   "author": {
     "name": "mkw"
   },

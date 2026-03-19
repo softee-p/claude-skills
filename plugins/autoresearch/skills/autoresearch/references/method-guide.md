@@ -3,9 +3,8 @@
 ## Origin
 
 This method is adapted from Andrej Karpathy's **autoresearch** concept: instead
-of manually improving something, let an AI agent do it in a loop. Try a small
-change, measure if the result got better, keep it if it did, revert if it
-didn't. Repeat.
+of manually improving something, an AI agent does it in a loop. Try a small
+change, measure if the result improved, keep it if so, revert if not. Repeat.
 
 ## Core Principle: Hill Climbing with Guard Rails
 
@@ -68,7 +67,7 @@ improvements.
 
 ### Types of Changes (Ordered by Effectiveness)
 
-1. **Add a specific rule**: "Your headline MUST include a specific number or
+1. **Add a specific rule**: "The headline MUST include a specific number or
    metric. Never use vague promises."
 2. **Add a banned list**: "NEVER use these words: revolutionary, cutting-edge,
    synergy, leverage, unlock, transform, game-changing."
@@ -82,8 +81,8 @@ improvements.
 
 ### Common Traps
 
-- **Over-constraining**: Adding too many rules makes output formulaic. If you
-  notice outputs starting to sound identical, you've gone too far.
+- **Over-constraining**: Adding too many rules makes output formulaic. If
+  outputs start sounding identical, too many constraints have been added.
 - **Conflicting rules**: A tight word count + requirement for detailed examples
   can fight each other. Watch for changes that help one metric but hurt another.
 - **Rule stacking**: If you have more than 3-4 added rules after several
