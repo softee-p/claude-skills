@@ -23,7 +23,7 @@ Methodically audit a deployed RedwoodSDK application on Cloudflare Workers.
 
 ## Audit Workflow
 
-Execute these phases in order. Use TodoWrite to track progress.
+Execute these phases in order.
 
 ### Phase 1: Setup & Discovery
 
@@ -122,7 +122,7 @@ When errors reference code paths:
 
 1. **Use rwsdk-docs skill** to verify patterns against docs
 2. **Read source files** from error stack traces
-3. **Check common issues** - See [references/common-issues.md](references/common-issues.md)
+3. **Check common issues** - See [references/common-issues.md](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-audit-deployed/references/common-issues.md)
 
 ## Report Structure
 

@@ -17,20 +17,42 @@
 
 ### `rwsdk-toolkit`
 
-Full-stack RedwoodSDK development — docs lookup, frontend debugging, shadcn/ui management, production auditing, and doc sync for React Server Components on Cloudflare Workers.
+A Claude Code plugin for building full-stack apps with [RedwoodSDK](https://rwsdk.com) — React Server Components on Cloudflare Workers.
+
+**Skills** auto-load based on what you're working on — no invocation needed. When you ask about routing, styling, components, or production issues, the relevant skill activates automatically. **Slash commands** are explicit multi-step workflows you invoke when you want a structured task executed from start to finish.
 
 <details>
 <summary>6 commands &ensp;·&ensp; 5 skills</summary>
 <br>
 
-| Commands | Skills |
-|----------|--------|
-| `/audit` | rwsdk-docs |
-| `/components` | rwsdk-frontend |
-| `/docs` | rwsdk-shadcn-update |
-| `/fix` | rwsdk-audit-deployed |
-| `/new` | update-rwsdk-docs |
-| `/sync` | |
+| Command | What it does |
+|---------|-------------|
+| `/rwsdk:new` | Scaffold a new project or add a route/page/component |
+| `/rwsdk:fix` | 4-phase visual frontend debugging |
+| `/rwsdk:components` | Add or update shadcn/ui components safely |
+| `/rwsdk:audit` | 6-phase production health audit |
+| `/rwsdk:docs` | Look up a specific documentation topic |
+| `/rwsdk:sync` | Sync docs with the latest official RedwoodSDK docs |
+
+<br>
+
+| Skill | What it does |
+|-------|-------------|
+| `rwsdk-docs` | Full official docs (50+ `.mdx` files) — routing, RSC, auth, storage, email, queues, cron, hosting, and all frontend guides |
+| `rwsdk-frontend` | 4-phase visual debugging — opens the dev server, inspects viewports, creates a fix plan from visual evidence |
+| `rwsdk-shadcn-update` | Add or update shadcn/ui components while preserving customizations and enforcing RSC compliance |
+| `rwsdk-audit-deployed` | 6-phase production audit via cloudflare-observability MCP — HEALTHY / DEGRADED / CRITICAL report |
+| `update-rwsdk-docs` | Shallow-clones the official SDK repo and refreshes the bundled docs |
+
+<br>
+
+| What you type | Skill that loads |
+|--------------|-----------------|
+| "How do I add middleware to my route?" | `rwsdk-docs` |
+| "My mobile layout is broken" | `rwsdk-frontend` |
+| "Add a shadcn Dialog component" | `rwsdk-shadcn-update` |
+| "Is my worker healthy after the deploy?" | `rwsdk-audit-deployed` |
+| "The docs seem outdated, refresh them" | `update-rwsdk-docs` |
 
 </details>
 

@@ -17,7 +17,7 @@ Follow the rwsdk-frontend skill workflow strictly:
 
 **Phase 2: Visual Testing**
 - Start the dev server if not running
-- Use browser-use skill to visually inspect the issue at multiple viewport sizes
+- Use browser automation tools to visually inspect the issue at multiple viewport sizes
 - Document specific problems with screenshots/descriptions
 
 **Phase 3: Design Solution**
@@ -27,5 +27,5 @@ Follow the rwsdk-frontend skill workflow strictly:
 
 **Phase 4: Verification**
 - Apply the fix
-- Re-test with browser-use at the same viewports
+- Re-test with browser automation at the same viewports
 - Verify no regressions at other breakpoints (mobile, tablet, desktop)
