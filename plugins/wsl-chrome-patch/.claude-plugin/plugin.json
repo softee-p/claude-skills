@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Patch Claude Code binary to enable the /chrome slash command on WSL2. Fixes 'not supported in WSL' errors and Chrome browser tool connectivity issues.",
   "author": {
-    "name": "mkw"
+    "name": "softee-p",
+    "url": "https://github.com/softee-p"
   },
   "license": "MIT",
   "keywords": ["wsl", "wsl2", "chrome", "browser", "patch"]

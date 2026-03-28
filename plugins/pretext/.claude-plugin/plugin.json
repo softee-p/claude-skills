@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Guidance for using @chenglou/pretext — DOM-free multiline text measurement and layout. Covers the two-phase prepare/layout API, font safety, i18n text handling, and integration patterns for React, canvas rendering, and streaming.",
   "author": {
-    "name": "chenglou",
-    "url": "https://github.com/chenglou/pretext"
+    "name": "softee-p",
+    "url": "https://github.com/softee-p"
   },
   "license": "MIT",
   "keywords": [

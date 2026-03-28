@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Guidance for building applications with Transformers.js — run ML models (NLP, vision, audio) directly in the browser or Node.js. Covers React, Next.js, vanilla JS, and Node.js patterns.",
   "author": {
-    "name": "mkw"
+    "name": "softee-p",
+    "url": "https://github.com/softee-p"
   },
   "license": "MIT",
   "keywords": ["transformers.js", "machine-learning", "browser-ml", "inference", "huggingface"]
