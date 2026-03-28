@@ -120,17 +120,17 @@ Add the marketplace:
 Then install what you need:
 
 ```
-/plugin install rwsdk-toolkit@mkw-plugins
-/plugin install practical-typography@mkw-plugins
-/plugin install transformersjs-docs@mkw-plugins
-/plugin install pretext@mkw-plugins
-/plugin install wsl-chrome-patch@mkw-plugins
+/plugin install rwsdk-toolkit@mkw-claude-plugins
+/plugin install practical-typography@mkw-claude-plugins
+/plugin install transformersjs-docs@mkw-claude-plugins
+/plugin install pretext@mkw-claude-plugins
+/plugin install wsl-chrome-patch@mkw-claude-plugins
 ```
 
 Update later:
 
 ```
-/plugin marketplace update mkw-plugins
+/plugin marketplace update mkw-claude-plugins
 ```
 
 <details>
@@ -138,8 +138,8 @@ Update later:
 <br>
 
 ```
-/plugin disable practical-typography@mkw-plugins
-/plugin enable  practical-typography@mkw-plugins
+/plugin disable practical-typography@mkw-claude-plugins
+/plugin enable  practical-typography@mkw-claude-plugins
 ```
 
 </details>
