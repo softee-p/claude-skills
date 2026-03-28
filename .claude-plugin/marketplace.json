@@ -1,5 +1,5 @@
 {
-  "name": "claude-skills",
+  "name": "mkw-plugins",
   "owner": {
     "name": "mkw"
   },
@@ -39,6 +39,14 @@
       "version": "1.0.0",
       "category": "utilities",
       "tags": ["wsl", "wsl2", "chrome", "browser", "patch"]
+    },
+    {
+      "name": "pretext",
+      "source": "./plugins/pretext",
+      "description": "Guidance for using @chenglou/pretext — DOM-free multiline text measurement and layout. Covers the two-phase prepare/layout API, font safety, i18n text handling, and integration patterns for React, canvas rendering, and streaming.",
+      "version": "1.0.0",
+      "category": "libraries",
+      "tags": ["pretext", "text-layout", "text-measurement", "line-breaking", "canvas", "i18n"]
     },
     {
       "name": "autoresearch",
