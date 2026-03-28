@@ -79,6 +79,20 @@ Includes tutorials for **React**, **Next.js**, **vanilla JavaScript**, and **Nod
 
 <br>
 
+### `pretext`
+
+DOM-free multiline text measurement and layout with [`@chenglou/pretext`](https://github.com/chenglou/pretext) — the two-phase prepare/layout API, font safety, i18n text handling, and integration patterns for React, canvas rendering, and streaming.
+
+<details>
+<summary>1 skill</summary>
+<br>
+
+Covers API selection (layout vs layoutWithLines vs layoutNextLine vs walkLineRanges), critical rules (font string safety, prepare-once pattern, locale config), and complete reference docs with working examples for React, canvas, virtual scrolling, and streaming layout.
+
+</details>
+
+<br>
+
 ### `wsl-chrome-patch`
 
 Patches Claude Code to enable the `/chrome` command on WSL2 — fixes the "not supported in WSL" error and browser tool connectivity issues.
@@ -109,6 +123,7 @@ Then install what you need:
 /plugin install rwsdk-toolkit@claude-skills
 /plugin install practical-typography@claude-skills
 /plugin install transformersjs-docs@claude-skills
+/plugin install pretext@claude-skills
 /plugin install wsl-chrome-patch@claude-skills
 ```
 
@@ -142,6 +157,8 @@ Update later:
     <a href="https://rwsdk.com/">RedwoodSDK</a>
     &ensp;·&ensp;
     <a href="https://github.com/huggingface/transformers.js">Transformers.js</a> by Hugging Face
+    &ensp;·&ensp;
+    <a href="https://github.com/chenglou/pretext">Pretext</a> by chenglou
   </sub>
 </p>
 
