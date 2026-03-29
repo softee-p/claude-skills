@@ -55,6 +55,14 @@
       "version": "0.1.0",
       "category": "utilities",
       "tags": ["autoresearch", "skill-improvement", "optimization", "testing", "autopilot"]
+    },
+    {
+      "name": "heerich",
+      "source": "./plugins/heerich",
+      "description": "Build 3D voxel scenes rendered as SVG using the heerich library. Provides full API documentation and a scene generation command for creating voxel art, architectural models, and isometric graphics.",
+      "version": "1.0.0",
+      "category": "libraries",
+      "tags": ["heerich", "voxel", "svg", "3d", "isometric", "generative-art"]
     }
   ]
 }
