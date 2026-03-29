@@ -115,6 +115,32 @@ Covers API selection (layout vs layoutWithLines vs layoutNextLine vs walkLineRan
 
 <br>
 
+### `heerich`
+
+Build 3D voxel scenes rendered as crisp SVG using [heerich.js](https://github.com/meodai/heerich) — a zero-dependency engine for isometric and perspective voxel art. Named after sculptor Erwin Heerich.
+
+<details>
+<summary>1 command &ensp;·&ensp; 1 skill</summary>
+<br>
+
+| Command | What it does |
+|---------|-------------|
+| `/heerich:scene` | Generate a 3D voxel SVG scene from a text description — writes a Node.js script, runs it, outputs an SVG file |
+
+<br>
+
+| Skill | What it does |
+|-------|-------------|
+| `heerich-docs` | Full API reference — constructor, shape methods (box/sphere/line/where), boolean operations, camera projections, per-face styling, style functions, content voxels, serialization |
+
+<br>
+
+References cover the complete API, styling and cameras, and 9 ready-to-use recipes (buildings, terrain, characters, domes, boolean ops, animation frames, and more).
+
+</details>
+
+<br>
+
 ### `wsl-chrome-patch`
 
 Patches Claude Code to enable the `/chrome` command on WSL2 — fixes the "not supported in WSL" error and browser tool connectivity issues.
@@ -146,6 +172,7 @@ Then install what you need:
 /plugin install practical-typography@mkw-claude-plugins
 /plugin install transformersjs-docs@mkw-claude-plugins
 /plugin install pretext@mkw-claude-plugins
+/plugin install heerich@mkw-claude-plugins
 /plugin install wsl-chrome-patch@mkw-claude-plugins
 ```
 
@@ -181,6 +208,8 @@ Update later:
     <a href="https://github.com/huggingface/transformers.js">Transformers.js</a> by Hugging Face
     &ensp;·&ensp;
     <a href="https://github.com/chenglou/pretext">Pretext</a> by chenglou
+    &ensp;·&ensp;
+    <a href="https://github.com/meodai/heerich">Heerich</a> by meodai
   </sub>
 </p>
 
