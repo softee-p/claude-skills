@@ -141,6 +141,30 @@ References cover the complete API, styling and cameras, and 9 ready-to-use recip
 
 <br>
 
+### `mapcn-toolkit`
+
+Interactive map components for React with [mapcn](https://www.mapcn.dev/) — built on MapLibre GL, Tailwind CSS, and shadcn/ui. Free tiles, zero config, automatic dark mode.
+
+<details>
+<summary>3 commands &ensp;·&ensp; 1 skill</summary>
+<br>
+
+| Command | What it does |
+|---------|-------------|
+| `/mapcn-toolkit:add` | Install mapcn components or blocks into the current project |
+| `/mapcn-toolkit:new` | Scaffold a new interactive map view or page |
+| `/mapcn-toolkit:blocks` | Install and customize a pre-built map template |
+
+<br>
+
+| Skill | What it does |
+|-------|-------------|
+| `mapcn-docs` | Full component reference — Map, MapControls, MapMarker, MarkerContent, MarkerPopup, MarkerTooltip, MarkerLabel, MapPopup, MapRoute, MapClusterLayer, useMap hook, advanced usage (refs, events, custom GeoJSON layers), and 4 blocks (analytics-map, logistics-network, heatmap, delivery-tracker) |
+
+</details>
+
+<br>
+
 ### `wsl-chrome-patch`
 
 Patches Claude Code to enable the `/chrome` command on WSL2 — fixes the "not supported in WSL" error and browser tool connectivity issues.
@@ -173,6 +197,7 @@ Then install what you need:
 /plugin install transformersjs-docs@mkw-claude-plugins
 /plugin install pretext@mkw-claude-plugins
 /plugin install heerich@mkw-claude-plugins
+/plugin install mapcn-toolkit@mkw-claude-plugins
 /plugin install wsl-chrome-patch@mkw-claude-plugins
 ```
 
@@ -210,6 +235,8 @@ Update later:
     <a href="https://github.com/chenglou/pretext">Pretext</a> by chenglou
     &ensp;·&ensp;
     <a href="https://github.com/meodai/heerich">Heerich</a> by meodai
+    &ensp;·&ensp;
+    <a href="https://www.mapcn.dev/">mapcn</a> by Anmoldeep Singh
   </sub>
 </p>
 

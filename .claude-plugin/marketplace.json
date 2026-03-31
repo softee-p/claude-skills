@@ -63,6 +63,14 @@
       "version": "1.0.0",
       "category": "libraries",
       "tags": ["heerich", "voxel", "svg", "3d", "isometric", "generative-art"]
+    },
+    {
+      "name": "mapcn-toolkit",
+      "source": "./plugins/mapcn-toolkit",
+      "description": "Development toolkit for mapcn — interactive React map components built on MapLibre GL, Tailwind CSS, and shadcn/ui. Covers all components (Map, Markers, Popups, Routes, Clusters), advanced usage, and pre-built blocks. Zero-config free tiles.",
+      "version": "1.0.0",
+      "category": "libraries",
+      "tags": ["mapcn", "maplibre", "maps", "react", "shadcn", "geospatial"]
     }
   ]
 }
