@@ -1,10 +1,10 @@
 {
-  "name": "rwsdk-toolkit",
+  "name": "rwsdk",
   "version": "1.0.0",
-  "description": "Comprehensive RedwoodSDK development toolkit for Claude Code. Provides skills for building full-stack React Server Component applications on Cloudflare Workers — covering documentation lookup, frontend development, component management, production auditing, and documentation maintenance. Optional: cloudflare-observability MCP server for the production audit skill.",
+  "description": "Comprehensive RedwoodSDK development toolkit for Claude Code. Provides skills for building full-stack React Server Component applications on Cloudflare Workers — covering documentation lookup, frontend development, component management, production auditing, and documentation maintenance.",
   "author": {
     "name": "softee-p",
-    "url": "https://github.com/softee-p"
+    "url": "https://github.com/softee-p/redwoodSDK-toolkit"
   },
   "license": "MIT",
   "keywords": [

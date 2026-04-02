@@ -23,7 +23,7 @@ Methodically audit a deployed RedwoodSDK application on Cloudflare Workers.
 
 ## Audit Workflow
 
-Execute these phases in order.
+Execute these phases in order. Use TodoWrite to track progress.
 
 ### Phase 1: Setup & Discovery
 

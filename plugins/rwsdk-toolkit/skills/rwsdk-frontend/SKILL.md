@@ -63,9 +63,13 @@ Do NOT rely solely on code reading. Visually inspect the actual problems.
 
 Start the dev server if not already running. Note the URL.
 
-### 2.2 Visually Inspect the Running App
+### 2.2 Use browser-use Skill
 
-Use browser automation tools (e.g., `mcp__claude-in-chrome__*`) to visually inspect layout issues. Navigate to the dev server URL and test at multiple viewport sizes.
+Load the `browser-use` skill to visually inspect layout issues:
+
+```
+Use browser-use to navigate to [dev-server-url] and test mobile layout
+```
 
 Test mobile viewports (iPhone, Android) to observe:
 - Input field rendering and sizing
@@ -110,9 +114,9 @@ The plan should specify:
 
 Plan how to verify the fixes work.
 
-### 4.1 Include Visual Verification
+### 4.1 Include browser-use Verification
 
-The implementation plan MUST include re-testing with browser automation:
+The implementation plan MUST include re-testing with `browser-use`:
 - Test same viewports that showed issues
 - Verify each documented problem is resolved
 - Check for new issues introduced by changes
@@ -130,7 +134,7 @@ Ensure changes don't break layouts at other viewport sizes.
 
 **DO NOT skip these steps:**
 - rwsdk-docs (RSC context and Tailwind v4 patterns)
-- Visual testing with browser automation (before and after)
+- browser-use (visual testing before and after)
 - Frontend design guidance (mobile-first, accessibility)
 
 **DO NOT just explore code without using the skills:**

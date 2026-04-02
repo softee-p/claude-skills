@@ -153,7 +153,7 @@ Standard Components (safe to update):
 - [List of components]
 ```
 
-**Document findings** in `.shadcn-customizations.md` in the project root (create if doesn't exist). See `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/references/customizations.md` for the template format.
+**Document findings** in `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/references/customizations.md` (create if doesn't exist).
 
 ---
 
@@ -315,7 +315,7 @@ $PKG_MGR run dev
 
 **5. Document if customized:**
 
-If you add customizations, update `.shadcn-customizations.md` in the project root with:
+If you add customizations, update `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/references/customizations.md` with:
 - Component name
 - Type (custom/modified/standard)
 - Description of customizations
@@ -465,7 +465,7 @@ grep -r "from \"@/app/components/ui" src/ --include="*.tsx" --include="*.ts"
 1. **Use MCP server** when available for better reliability
 2. **Verify RSC compliance** - Default to server components
 3. **Test incrementally** - Don't update all components at once
-4. **Document customizations** - Update `.shadcn-customizations.md` in the project root
+4. **Document customizations** - Update `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/references/customizations.md`
 
 ### After Component Operations
 
