@@ -1,6 +1,6 @@
 {
   "name": "heerich",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Build 3D voxel scenes rendered as SVG using the heerich library. Provides full API documentation and a scene generation command for creating voxel art, architectural models, game assets, and data visualizations as crisp, scalable SVG.",
   "author": {
     "name": "softee-p",

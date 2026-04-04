@@ -1,6 +1,6 @@
 {
   "name": "transformersjs-docs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Guidance for building applications with Transformers.js — run ML models (NLP, vision, audio) directly in the browser or Node.js. Covers React, Next.js, vanilla JS, and Node.js patterns.",
   "author": {
     "name": "softee-p",
