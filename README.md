@@ -165,6 +165,26 @@ Interactive map components for React with [mapcn](https://www.mapcn.dev/) — bu
 
 <br>
 
+### `autoresearch`
+
+Autonomous skill improvement via iterative testing — based on [Andrej Karpathy's autoresearch method](https://github.com/karpathy/autoresearch). Runs a target skill against a yes/no scoring checklist, makes one small prompt change per round, keeps what works, reverts what doesn't.
+
+<details>
+<summary>1 skill</summary>
+<br>
+
+| Skill | What it does |
+|-------|-------------|
+| `autoresearch` | Test-score-change-decide loop — establishes a baseline, then iteratively improves a skill's prompt by analyzing failures, proposing targeted changes, and reverting regressions |
+
+<br>
+
+Generates four artifacts on completion: the improved skill prompt, a backup of the original, a round-by-round results log, and a changelog of every change tried.
+
+</details>
+
+<br>
+
 ### `wsl-chrome-patch`
 
 Patches Claude Code to enable the `/chrome` command on WSL2 — fixes the "not supported in WSL" error and browser tool connectivity issues.
@@ -198,6 +218,7 @@ Then install what you need:
 /plugin install pretext@mkw-claude-plugins
 /plugin install heerich@mkw-claude-plugins
 /plugin install mapcn-toolkit@mkw-claude-plugins
+/plugin install autoresearch@mkw-claude-plugins
 /plugin install wsl-chrome-patch@mkw-claude-plugins
 ```
 
