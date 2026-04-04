@@ -1,6 +1,6 @@
 {
   "name": "practical-typography",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Helps agents produce well-typeset text by applying key rules from Butterick's Practical Typography. Covers proper punctuation, emphasis, spacing, capitalization, layout, and font guidance.",
   "author": {
     "name": "softee-p",

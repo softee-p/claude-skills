@@ -1,6 +1,6 @@
 {
   "name": "autoresearch",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Autonomous skill improvement via iterative testing. Run autoresearch on any skill to test it against a yes/no scoring checklist, make one small prompt change per round, keep what works, and revert what doesn't. Based on Andrej Karpathy's autoresearch method.",
   "author": {
     "name": "softee-p",

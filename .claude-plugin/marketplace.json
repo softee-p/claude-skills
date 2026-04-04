@@ -12,7 +12,7 @@
       "name": "rwsdk-toolkit",
       "source": "./plugins/rwsdk-toolkit",
       "description": "Comprehensive RedwoodSDK development toolkit — documentation lookup, frontend debugging, shadcn/ui management, production auditing, and doc sync. Includes skills and slash commands for building full-stack React Server Component apps on Cloudflare Workers.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "frameworks",
       "tags": ["redwoodsdk", "rwsdk", "cloudflare-workers", "rsc", "fullstack"]
     },
@@ -20,7 +20,7 @@
       "name": "practical-typography",
       "source": "./plugins/practical-typography",
       "description": "Helps agents produce well-typeset text by applying key rules from Butterick's Practical Typography. Covers proper punctuation, emphasis, spacing, capitalization, layout, and font guidance.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "category": "writing",
       "tags": ["typography", "formatting", "prose", "documentation"]
     },
@@ -28,7 +28,7 @@
       "name": "transformersjs-docs",
       "source": "./plugins/transformersjs-docs",
       "description": "Guidance for building applications with Transformers.js — run ML models (NLP, vision, audio) directly in the browser or Node.js. Covers React, Next.js, vanilla JS, and Node.js patterns.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "category": "machine-learning",
       "tags": ["transformers.js", "machine-learning", "browser-ml", "inference", "huggingface"]
     },
@@ -36,7 +36,7 @@
       "name": "wsl-chrome-patch",
       "source": "./plugins/wsl-chrome-patch",
       "description": "Patch Claude Code binary to enable the /chrome slash command on WSL2. Fixes 'not supported in WSL' errors and Chrome browser tool connectivity issues.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "category": "utilities",
       "tags": ["wsl", "wsl2", "chrome", "browser", "patch"]
     },
@@ -44,7 +44,7 @@
       "name": "pretext",
       "source": "./plugins/pretext",
       "description": "Guidance for using @chenglou/pretext — DOM-free multiline text measurement and layout. Covers the two-phase prepare/layout API, font safety, i18n text handling, and integration patterns for React, canvas rendering, and streaming.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "category": "libraries",
       "tags": ["pretext", "text-layout", "text-measurement", "line-breaking", "canvas", "i18n"]
     },
@@ -52,7 +52,7 @@
       "name": "autoresearch",
       "source": "./plugins/autoresearch",
       "description": "Autonomous skill improvement via iterative testing. Run autoresearch on any skill to test it against a yes/no scoring checklist, make one small prompt change per round, keep what works, and revert what doesn't. Based on Andrej Karpathy's autoresearch method.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "category": "utilities",
       "tags": ["autoresearch", "skill-improvement", "optimization", "testing", "autopilot"]
     },
@@ -60,7 +60,7 @@
       "name": "heerich",
       "source": "./plugins/heerich",
       "description": "Build 3D voxel scenes rendered as SVG using the heerich library. Provides full API documentation and a scene generation command for creating voxel art, architectural models, and isometric graphics.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "category": "libraries",
       "tags": ["heerich", "voxel", "svg", "3d", "isometric", "generative-art"]
     },
@@ -68,7 +68,7 @@
       "name": "mapcn-toolkit",
       "source": "./plugins/mapcn-toolkit",
       "description": "Development toolkit for mapcn — interactive React map components built on MapLibre GL, Tailwind CSS, and shadcn/ui. Covers all components (Map, Markers, Popups, Routes, Clusters), advanced usage, and pre-built blocks. Zero-config free tiles.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "category": "libraries",
       "tags": ["mapcn", "maplibre", "maps", "react", "shadcn", "geospatial"]
     }

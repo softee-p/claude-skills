@@ -1,6 +1,6 @@
 {
   "name": "pretext",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Guidance for using @chenglou/pretext — DOM-free multiline text measurement and layout. Covers the two-phase prepare/layout API, font safety, i18n text handling, and integration patterns for React, canvas rendering, and streaming.",
   "author": {
     "name": "softee-p",

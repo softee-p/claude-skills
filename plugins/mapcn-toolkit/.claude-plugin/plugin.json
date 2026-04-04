@@ -1,6 +1,6 @@
 {
   "name": "mapcn-toolkit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Development toolkit for mapcn — a React map component library built on MapLibre GL, Tailwind CSS, and shadcn/ui. Provides component documentation, installation guidance, and scaffolding commands for building interactive map applications with zero-config free tiles.",
   "author": {
     "name": "softee-p",
