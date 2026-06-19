@@ -8,7 +8,7 @@ This changelog tracks breaking changes, new patterns, and deprecations in the of
 
 ## 2026-06-19 — Docs sync: realtime auto-reconnection + `except` handler scoping
 
-Synced all 44 reference files from the official RedwoodSDK repo. Docs are current as of **rwsdk 1.2.13** (released 2026-06-17). The previous sync reflected roughly **rwsdk 1.0.4**; since then the library released 1.0.5 → 1.0.9 → 1.1.0 → 1.2.0 → 1.2.13. **No `BREAKING CHANGE` was declared in any upstream release note in that range.** Two documented behaviors changed, and a few library features landed that the docs do not cover yet — all detailed below so projects can be updated without reading the repo.
+Synced all 44 reference files from the official RedwoodSDK repo. Docs are current as of **rwsdk 1.2.13** (released 2026-06-17). The previous sync reflected roughly **rwsdk 1.0.4**; since then the library released 1.0.5 → 1.0.9 → 1.1.0 → 1.2.0 → 1.2.13, with **no `BREAKING CHANGE` declared in any upstream release note in that range.** Two documented behaviors changed — both detailed below so projects can be updated without reading the repo.
 
 ### Routing: `except` handlers are now scoped to their enclosing `prefix()`
 
@@ -72,17 +72,6 @@ export const SharedCounter = () => {
 ```
 
 **Action:** Additive — no migration required. Projects with realtime features can delete any hand-rolled reconnection logic and use `onStatusChange` for UI feedback.
-
-### Library changes since the last sync NOT yet in the docs (awareness only)
-
-These shipped in the rwsdk library but are **not documented** in the 44 reference files. The exact APIs are not in the docs, so confirm signatures against the project's installed rwsdk version before relying on them:
-
-- **Vite 8 (Rolldown) is now the default bundler** (rwsdk ≥ 1.2.5, PR #1180). Upgrading rwsdk past 1.2.5 moves a project from Vite 7 to Vite 8/Rolldown by default. Watch for Vite-plugin compatibility, and note that sourcemap and module-preload handling changed across 1.2.5–1.2.7.
-- **`registerServerFunctionWrap`** (rwsdk ≥ 1.1.0, PR #1137; made re-entrant in 1.2.4) — a worker API for globally wrapping/instrumenting every server function (logging, auth, monitoring, error capture). Not yet documented.
-- **React upgraded to 19.2.6** (rwsdk ≥ 1.2.7).
-- Client-nav refinements: in-memory scroll-position storage (1.2.10), scroll-flash fixes (1.2.1), hash-only popstate is now ignored (1.2.11). No code changes required.
-
-**Files to check:** `vite.config.ts` and `package.json` when upgrading rwsdk past 1.2.5 (Vite 8). The other items require no code migration on their own.
 
 ---
 
