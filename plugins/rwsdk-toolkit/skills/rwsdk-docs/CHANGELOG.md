@@ -6,6 +6,86 @@ This changelog tracks breaking changes, new patterns, and deprecations in the of
 
 ---
 
+## 2026-06-19 — Docs sync: realtime auto-reconnection + `except` handler scoping
+
+Synced all 44 reference files from the official RedwoodSDK repo. Docs are current as of **rwsdk 1.2.13** (released 2026-06-17). The previous sync reflected roughly **rwsdk 1.0.4**; since then the library released 1.0.5 → 1.0.9 → 1.1.0 → 1.2.0 → 1.2.13. **No `BREAKING CHANGE` was declared in any upstream release note in that range.** Two documented behaviors changed, and a few library features landed that the docs do not cover yet — all detailed below so projects can be updated without reading the repo.
+
+### Routing: `except` handlers are now scoped to their enclosing `prefix()`
+
+As of **rwsdk 1.2.9** (PR #1200, "scope except handlers to their enclosing prefix"), an `except` error handler declared inside a `prefix(...)` only catches errors from routes **within that prefix** — it is skipped for requests outside it. This is a behavior change: a handler that must run for *every* error has to be declared at the **top level** of `defineApp([...])`. Top-level `except` handlers are not path-scoped and fire for any route declared after them.
+
+**Before (assumption that held in some pre-1.2.9 setups):** a `prefix()`-nested `except` was relied on to catch errors for routes outside its prefix.
+
+**After (≥ 1.2.9 — correct pattern):**
+```tsx
+import { defineApp } from "rwsdk/worker";
+
+export default defineApp([
+  // Global catch-all: fires for ANY route declared after it
+  except((error) => {
+    return <GlobalErrorPage error={error} />;
+  }),
+
+  prefix("/admin", [
+    // Scoped: only catches errors from /admin/* routes
+    except((error) => {
+      if (error instanceof PermissionError) {
+        return new Response("Admin Access Denied", { status: 403 });
+      }
+      // Return void to let it bubble up to the global handler
+    }),
+    route("/dashboard", AdminDashboard),
+  ]),
+
+  route("/", Home),
+]);
+```
+
+**Files to check:** Any project using `except` inside a `prefix(...)`. If you relied on a nested `except` to handle errors for routes *outside* its prefix, move that handler to the top level of `defineApp([...])`. Errors not handled by a scoped `except` bubble up to the next `except` further back in the tree.
+
+### Realtime: automatic reconnection + `onStatusChange` callback (additive)
+
+`useSyncedState` now **automatically reconnects** when the WebSocket connection drops (bad wifi, server restart, etc.): it detects the break, reconnects with exponential backoff (1s, 2s, 4s … up to 30s), re-subscribes all active keys, and refetches the latest state so the UI catches up on missed updates. This is transparent — components need no changes. (Landed in rwsdk 1.2.0 via PR #1133, hardened through 1.2.13.)
+
+To react to connection state (e.g. show an offline banner/toast), create a custom hook with the new **`createSyncedStateHook`** factory and use it instead of the default export:
+
+```tsx
+// src/app/hooks.ts
+import { createSyncedStateHook } from "rwsdk/use-synced-state/client";
+
+export const useSyncedState = createSyncedStateHook({
+  onStatusChange(status) {
+    // status: "connected" | "disconnected" | "reconnecting"
+    if (status === "disconnected") console.warn("Connection lost, reconnecting...");
+    if (status === "connected") console.log("Connection restored");
+  },
+});
+```
+```tsx
+// src/app/components/SharedCounter.tsx
+"use client";
+import { useSyncedState } from "@/app/hooks"; // not from rwsdk/use-synced-state/client
+export const SharedCounter = () => {
+  const [count, setCount] = useSyncedState(0, "counter");
+  // ...
+};
+```
+
+**Action:** Additive — no migration required. Projects with realtime features can delete any hand-rolled reconnection logic and use `onStatusChange` for UI feedback.
+
+### Library changes since the last sync NOT yet in the docs (awareness only)
+
+These shipped in the rwsdk library but are **not documented** in the 44 reference files. The exact APIs are not in the docs, so confirm signatures against the project's installed rwsdk version before relying on them:
+
+- **Vite 8 (Rolldown) is now the default bundler** (rwsdk ≥ 1.2.5, PR #1180). Upgrading rwsdk past 1.2.5 moves a project from Vite 7 to Vite 8/Rolldown by default. Watch for Vite-plugin compatibility, and note that sourcemap and module-preload handling changed across 1.2.5–1.2.7.
+- **`registerServerFunctionWrap`** (rwsdk ≥ 1.1.0, PR #1137; made re-entrant in 1.2.4) — a worker API for globally wrapping/instrumenting every server function (logging, auth, monitoring, error capture). Not yet documented.
+- **React upgraded to 19.2.6** (rwsdk ≥ 1.2.7).
+- Client-nav refinements: in-memory scroll-position storage (1.2.10), scroll-flash fixes (1.2.1), hash-only popstate is now ignored (1.2.11). No code changes required.
+
+**Files to check:** `vite.config.ts` and `package.json` when upgrading rwsdk past 1.2.5 (Vite 8). The other items require no code migration on their own.
+
+---
+
 ## 2026-03-30 — Docs sync: expanded database, realtime, and error handling docs
 
 Synced all 44 reference files from the official RedwoodSDK repo. Key changes:
