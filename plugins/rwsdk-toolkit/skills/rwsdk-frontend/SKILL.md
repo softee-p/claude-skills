@@ -63,13 +63,19 @@ Do NOT rely solely on code reading. Visually inspect the actual problems.
 
 Start the dev server if not already running. Note the URL.
 
-### 2.2 Use browser-use Skill
+### 2.2 Drive a real browser
 
-Load the `browser-use` skill to visually inspect layout issues:
+Load the `claude-in-chrome` skill, then use the `mcp__claude-in-chrome__*` tools to open the
+dev server and inspect the layout. Invoke the skill **before** calling any of those tools —
+they may need loading via ToolSearch first, and the skill explains that setup.
 
-```
-Use browser-use to navigate to [dev-server-url] and test mobile layout
-```
+Typical loop: `tabs_context_mcp` to see what is open, `tabs_create_mcp` + `navigate` to load
+the dev-server URL, `resize_window` to reach each viewport, and `computer` (screenshot) to
+actually look at the result. `read_console_messages` catches hydration and CSS-load errors
+that are invisible in a screenshot.
+
+If Chrome automation is unavailable in this environment, say so explicitly and fall back to
+asking the user for screenshots — **do not silently skip Phase 2 and guess from the code.**
 
 Test mobile viewports (iPhone, Android) to observe:
 - Input field rendering and sizing
@@ -114,9 +120,9 @@ The plan should specify:
 
 Plan how to verify the fixes work.
 
-### 4.1 Include browser-use Verification
+### 4.1 Include Browser Verification
 
-The implementation plan MUST include re-testing with `browser-use`:
+The implementation plan MUST include re-testing in the browser with `claude-in-chrome`:
 - Test same viewports that showed issues
 - Verify each documented problem is resolved
 - Check for new issues introduced by changes
@@ -134,7 +140,7 @@ Ensure changes don't break layouts at other viewport sizes.
 
 **DO NOT skip these steps:**
 - rwsdk-docs (RSC context and Tailwind v4 patterns)
-- browser-use (visual testing before and after)
+- claude-in-chrome (visual testing before and after)
 - Frontend design guidance (mobile-first, accessibility)
 
 **DO NOT just explore code without using the skills:**
@@ -152,11 +158,11 @@ User: "Fix mobile layout issues on my dashboard"
 Correct approach:
 1. Use rwsdk-docs skill → understand RSC styling constraints and Tailwind v4 patterns
 2. Use Explore agents → find layout/styling files
-3. Use browser-use skill → visually inspect mobile layout
+3. Use claude-in-chrome skill → visually inspect mobile layout
 4. Document: "Input fields compressed at 375px width, header text overlaps at 390px, page scrolls horizontally showing white space"
 5. Apply frontend design guidance → mobile-first layout fixes
 6. Create plan: "Update Header.tsx with flex-wrap, fix Input component min-width, add overflow-x-hidden to layout"
-7. Include browser-use re-test in plan
+7. Include claude-in-chrome re-test in plan
 
 Incorrect approach:
 - ❌ Skip visual testing and guess problems from code

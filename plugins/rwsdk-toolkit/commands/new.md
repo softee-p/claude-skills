@@ -4,7 +4,9 @@ allowed-tools: Bash, Read, Write, Edit, Glob, Grep, Agent
 argument-hint: <what-to-create>
 ---
 
-Use the rwsdk-docs skill to look up the relevant documentation before proceeding.
+Use the rwsdk-docs skill to look up the relevant documentation before proceeding. Check its
+`DOC-ACCURACY.md` for any topic you touch — the shipped references lag the published `rwsdk`
+package, and that file lists where they are wrong or incomplete.
 
 The user wants to create: $ARGUMENTS
 

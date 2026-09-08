@@ -4,6 +4,84 @@ This changelog tracks breaking changes, new patterns, and deprecations in the of
 
 **How to use:** Check the project's code against each entry. If the project uses an old pattern listed under "Before", update it to the "After" pattern. Entries are ordered newest-first.
 
+**Also read [DOC-ACCURACY.md](./DOC-ACCURACY.md).** This changelog covers changes to the *documentation*. The docs lag the published `rwsdk` package, so DOC-ACCURACY.md records where a shipped reference file is wrong for the current release, and which released APIs have no documentation at all.
+
+---
+
+## 2026-09-08 — Docs sync: `NavigationPending` Suspense boundary
+
+Synced all 44 reference files from the official RedwoodSDK repo. Docs are current as of **rwsdk 1.7.3** (released 2026-09-03). The previous sync reflected **rwsdk 1.2.13**; since then the library released 1.3.0 → 1.4.x → 1.5.x → 1.6.0 → 1.7.3, with **no `BREAKING CHANGE` declared in any upstream release note in that range.** Only one documented API was added — below.
+
+> The docs lagged the library badly over this range: four minor releases produced a single documented feature. Several shipped APIs are still undocumented, and one reference file is now wrong for the current release. Those divergences are recorded in [DOC-ACCURACY.md](./DOC-ACCURACY.md) — read it alongside this changelog.
+
+### Client navigation: `NavigationPending` for pending-navigation loading UI
+
+Client-side navigation updates the URL *before* the new RSC tree commits. A server-backed subtree can therefore show stale props during that gap. `NavigationPending` (a client component, added in **rwsdk 1.4.0**, exported from the SSR entry in 1.4.1) suspends that subtree so your own `<Suspense fallback>` shows instead.
+
+**Requires** the `onHydrated` callback from `initClientNavigation()` to be passed into `initClient()` — previously optional and only needed for prefetching.
+
+**Before:**
+```tsx
+// src/client.tsx
+const { handleResponse } = initClientNavigation();
+initClient({ handleResponse });
+```
+
+**After:**
+```tsx
+// src/client.tsx
+const { handleResponse, onHydrated } = initClientNavigation();
+initClient({ handleResponse, onHydrated });
+```
+```tsx
+// src/app/components/PendingResults.tsx
+"use client";
+import { Suspense } from "react";
+import { NavigationPending } from "rwsdk/client";
+
+export function PendingResults({ children }: { children: React.ReactNode }) {
+  return (
+    <Suspense fallback={<ResultsSkeleton />}>
+      <NavigationPending searchParams={["search", "page"]}>{children}</NavigationPending>
+    </Suspense>
+  );
+}
+```
+
+By default it suspends for **any** pending navigation. Narrow it with exactly one of three props — if combined, `when` beats `watch`, and `watch` beats `searchParams`:
+
+| Prop | Type | Behavior |
+|---|---|---|
+| `searchParams` | `readonly string[]` | Shorthand: suspend only when one of the listed search params changes. |
+| `watch` | `{ pathname?: boolean; searchParams?: boolean \| readonly string[]; hash?: boolean }` | Explicit URL parts. Defaults: `pathname: true`, `searchParams: true`, `hash: false`. |
+| `when` | `({ currentUrl, pendingUrl }) => boolean` | Custom predicate; return `true` to suspend. Receives copies of both URLs. |
+
+```tsx
+// Suspend only on search/page changes — a pathname- or hash-only change will not.
+<Suspense fallback={<ResultsSkeleton />}>
+  <NavigationPending watch={{ pathname: false, searchParams: ["search", "page"], hash: false }}>
+    <ResultsTable />
+  </NavigationPending>
+</Suspense>
+
+// App-specific rule.
+<Suspense fallback={<TabSkeleton />}>
+  <NavigationPending
+    when={({ currentUrl, pendingUrl }) =>
+      currentUrl.searchParams.get("tab") !== pendingUrl.searchParams.get("tab")
+    }
+  >
+    <TabPanel />
+  </NavigationPending>
+</Suspense>
+```
+
+The lower-level `useNavigationPending()` hook takes the same options and suspends the same way.
+
+**Action:** additive, but check `src/client.tsx` — `initClient` must now receive `onHydrated` for this (and for prefetching) to work.
+
+**Files to check:** `src/client.tsx`; any list, table, or tab panel whose props come from `searchParams` and that visibly shows stale data during navigation.
+
 ---
 
 ## 2026-06-19 — Docs sync: realtime auto-reconnection + `except` handler scoping

@@ -21,6 +21,8 @@ A Claude Code plugin for building full-stack apps with [RedwoodSDK](https://rwsd
 
 **Skills** auto-load based on what you're working on — no invocation needed. When you ask about routing, styling, components, or production issues, the relevant skill activates automatically. **Slash commands** are explicit multi-step workflows you invoke when you want a structured task executed from start to finish.
 
+Docs are current as of **rwsdk 1.7.3**. Because the official docs site trails the published package, the `rwsdk-docs` skill also ships `DOC-ACCURACY.md` — the list of places where a reference file is wrong for the current release, plus released APIs that aren't documented at all.
+
 <details>
 <summary>6 commands &ensp;·&ensp; 5 skills</summary>
 <br>
@@ -38,11 +40,11 @@ A Claude Code plugin for building full-stack apps with [RedwoodSDK](https://rwsd
 
 | Skill | What it does |
 |-------|-------------|
-| `rwsdk-docs` | Full official docs (50+ `.mdx` files) — routing, RSC, auth, storage, email, queues, cron, hosting, and all frontend guides |
-| `rwsdk-frontend` | 4-phase visual debugging — opens the dev server, inspects viewports, creates a fix plan from visual evidence |
+| `rwsdk-docs` | Full official docs (44 `.mdx` files) — routing, RSC, auth, storage, email, queues, cron, hosting, and all frontend guides. Ships a `CHANGELOG.md` of doc changes and a `DOC-ACCURACY.md` covering where the docs lag the published `rwsdk` package |
+| `rwsdk-frontend` | 4-phase visual debugging — opens the dev server in Chrome, inspects viewports, creates a fix plan from visual evidence |
 | `rwsdk-shadcn-update` | Add or update shadcn/ui components while preserving customizations and enforcing RSC compliance |
-| `rwsdk-audit-deployed` | 6-phase production audit via cloudflare-observability MCP — HEALTHY / DEGRADED / CRITICAL report |
-| `update-rwsdk-docs` | Shallow-clones the official SDK repo and refreshes the bundled docs |
+| `rwsdk-audit-deployed` | 6-phase production audit via a Cloudflare observability MCP, falling back to the wrangler CLI — HEALTHY / DEGRADED / CRITICAL report |
+| `update-rwsdk-docs` | Refreshes the bundled docs from the official SDK repo, then cross-checks them against the `rwsdk` release notes to catch docs that trail the library |
 
 <br>
 
