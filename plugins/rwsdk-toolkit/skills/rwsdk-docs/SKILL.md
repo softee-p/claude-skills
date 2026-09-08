@@ -25,6 +25,10 @@ Read the relevant reference file(s) based on the user's question. All reference 
 
 **Updating existing projects:** When working on a project that may have been built with an older version of RedwoodSDK or this skill, read [CHANGELOG.md](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/CHANGELOG.md) first. It lists breaking changes, deprecated patterns, and migration steps ordered newest-first. Apply any relevant updates to the project's code.
 
+**The references lag the library — read [DOC-ACCURACY.md](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/DOC-ACCURACY.md).** The `references/` files are a verbatim mirror of the official docs site, and that site trails the published `rwsdk` package. DOC-ACCURACY.md is the authoritative list of places where a reference file is **wrong for the current release**, plus released APIs that have no documentation at all. Read it before trusting a reference file on any topic it covers, and prefer its code over the `.mdx`. Rows marked ⚠ in the index below are covered there.
+
+**Docs mirror synced 2026-09-08, from a docs site current as of `rwsdk` 1.7.3.**
+
 ## Documentation Index
 
 ### Getting Started
@@ -52,7 +56,7 @@ Read the relevant reference file(s) based on the user's question. All reference 
 ### Guides - Frontend
 | File | Topics |
 |------|--------|
-| [references/guides/frontend/client-side-nav.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/frontend/client-side-nav.mdx) | SPA navigation, `initClientNavigation` (returns `handleResponse`/`onHydrated`), `navigate`, View Transitions, `scrollBehavior`/`scrollToTop` options, `onNavigate` callback, `history: "replace"`, `history.scrollRestoration`, prefetching with Cache API, `x-prefetch`, full prefetch API reference |
+| [references/guides/frontend/client-side-nav.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/frontend/client-side-nav.mdx) | SPA navigation, `initClientNavigation` (returns `handleResponse`/`onHydrated`), `navigate`, View Transitions, `scrollBehavior`/`scrollToTop` options, `onNavigate` callback, `history: "replace"`, `history.scrollRestoration`, prefetching with Cache API, `x-prefetch`, full prefetch API reference, `NavigationPending` loading UI for pending navigations (`onHydrated` now required for it) ⚠ *no `data-reload`/`shouldIntercept`/`onNavigationError` — see DOC-ACCURACY.md* |
 | [references/guides/frontend/layouts.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/frontend/layouts.mdx) | `layout()` function, `LayoutProps`, nested layouts, `prefix()`, `render()` composition |
 | [references/guides/frontend/documents.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/frontend/documents.mdx) | Custom Document components, HTML structure, per-route documents, hydration |
 | [references/guides/frontend/error-handling.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/frontend/error-handling.mdx) | `onUncaughtError`, `onCaughtError`, `except`, error boundaries, Sentry, React 19 error handling, universal error handling (window `error`/`unhandledrejection` listeners), server-side `except` with `ctx.waitUntil()` monitoring, scope and limitations |
@@ -77,14 +81,14 @@ Read the relevant reference file(s) based on the user's question. All reference 
 | [references/guides/vitest.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/vitest.mdx) | Vitest integration tests, `rwsdk-community/worker` package, test bridge pattern, `handleVitestRequest`, `vitestInvoke`, `vitest-pool-workers`, `defineWorkersConfig` |
 | [references/guides/debugging.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/debugging.mdx) | VS Code / Cursor debugging, `launch.json`, client/worker breakpoints |
 | [references/guides/troubleshooting.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/troubleshooting.mdx) | RSC config errors, directive scan failures, export conditions (`react-server`/`default`), MDX compilation errors, file encoding issues, `VERBOSE=1` logging, `getRequestInfo()` outside request context (queue handlers, cron triggers, `AsyncLocalStorage`), circular dependencies |
-| [references/guides/optimize/react-compiler.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/optimize/react-compiler.mdx) | React Compiler, `babel-plugin-react-compiler`, `@vitejs/plugin-react`, automatic memoization, Vite config, cache clearing, DevTools verification |
+| [references/guides/optimize/react-compiler.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/optimize/react-compiler.mdx) | React Compiler, `babel-plugin-react-compiler`, `@vitejs/plugin-react`, automatic memoization, Vite config, cache clearing, DevTools verification. ⚠ **Vite config in this file is superseded** — `@vitejs/plugin-react` v6 dropped the `babel` option; use `@rolldown/plugin-babel` + `reactCompilerPreset()` per DOC-ACCURACY.md §1 |
 
 ### Experimental Features
 | File | Topics |
 |------|--------|
 | [references/experimental/authentication.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/experimental/authentication.mdx) | Passkey addon, WebAuthn, passwordless auth, biometric login, `npx rwsdk addon passkey` |
 | [references/experimental/database.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/experimental/database.mdx) | SQLite Durable Objects, `rwsdk/db` module, Kysely query builder, `createDb`, migrations, type inference from migrations, `Migrations` type, rollback `down()` functions, CRUD, `SqliteDurableObject`, nesting relational data (`jsonObjectFrom`/`jsonArrayFrom`), database seeding (`rwsdk worker-run`), API reference (`createDb()`, `Database<T>`, `Migrations`, `SqliteDurableObject`), FAQ |
-| [references/experimental/realtime.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/experimental/realtime.mdx) | `useSyncedState`, `rwsdk/use-synced-state/worker`/`client` imports, `syncedStateRoutes`, `SYNCED_STATE_SERVER` binding, real-time bidirectional state, rooms, in-memory persistence, advanced scoping (Room IDs, `registerKeyHandler`, `registerRoomHandler`), persisting state (`registerSetStateHandler`, `registerGetStateHandler`), automatic reconnection (exponential backoff, transparent re-subscribe), connection-status callback (`createSyncedStateHook`, `onStatusChange`), future plans (offline support, durable storage) |
+| [references/experimental/realtime.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/experimental/realtime.mdx) | `useSyncedState`, `rwsdk/use-synced-state/worker`/`client` imports, `syncedStateRoutes`, `SYNCED_STATE_SERVER` binding, real-time bidirectional state, rooms, in-memory persistence, advanced scoping (Room IDs, `registerKeyHandler`, `registerRoomHandler`), persisting state (`registerSetStateHandler`, `registerGetStateHandler`), automatic reconnection (exponential backoff, transparent re-subscribe), connection-status callback (`createSyncedStateHook`, `onStatusChange`), future plans (offline support, durable storage) ⚠ *opt-in hibernation transport is undocumented — see DOC-ACCURACY.md §6* |
 
 ### Legacy
 | File | Topics |
@@ -95,7 +99,7 @@ Read the relevant reference file(s) based on the user's question. All reference 
 | File | Topics |
 |------|--------|
 | [references/reference/create-rwsdk.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/create-rwsdk.mdx) | `create-rwsdk` CLI, `--force`, `--release`, `--pre` flags, project scaffolding |
-| [references/reference/sdk-client.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-client.mdx) | `initClient` with `hydrateRootOptions`/`handleResponse`/`onHydrated` parameters, `initClientNavigation`, `ClientNavigationOptions`, `scrollToTop`/`scrollBehavior`/`onNavigate`, `navigate()` with `history`/scroll options, `onActionResponse`, `onUncaughtError`/`onCaughtError` error handling, Sentry integration, hydration |
+| [references/reference/sdk-client.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-client.mdx) | `initClient` with `hydrateRootOptions`/`handleResponse`/`onHydrated` (now `(meta?: RscPayloadMeta) => void`) parameters, `initClientNavigation`, `ClientNavigationOptions`, `scrollToTop`/`scrollBehavior`/`onNavigate`, `navigate()` with `history`/scroll options, `onActionResponse`, `onUncaughtError`/`onCaughtError` error handling, Sentry integration, hydration, `NavigationPending` component and `useNavigationPending()` hook (`searchParams`/`watch`/`when` props, precedence rules) |
 | [references/reference/sdk-router.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-router.mdx) | `route`, `prefix`, `render` with `rscPayload`/`ssr` options, `except` with JSX returns, multiple handlers & nesting, error bubbling, type signature, `ErrorResponse`, `MethodHandlers` type, `config.disable405`/`config.disableOptions`, `custom` methods, explicit HEAD handling, comprehensive error handling (try-catch, global `app.fetch` wrapping, `ctx.waitUntil()` for monitoring, unhandled errors), `except` handler scoping (path-scoped inside `prefix()` vs global at top level of `defineApp`) |
 | [references/reference/sdk-worker.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-worker.mdx) | `defineApp`, `app.fetch` pattern, `ErrorResponse`, `requestInfo` (`response`, `rw`, `cf` properties), middleware, `ctx`, `ctx.waitUntil()`, global error handling |
 
@@ -130,6 +134,11 @@ Use this to find the right file for common questions:
 - **Realtime, WebSockets, synced state** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/experimental/realtime.mdx`
 - **Realtime reconnection, connection status, `onStatusChange`** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/experimental/realtime.mdx`
 - **View Transitions** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/frontend/client-side-nav.mdx`
+- **Loading UI during navigation, `NavigationPending`, stale props while navigating** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/frontend/client-side-nav.mdx` + `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-client.mdx`
+- **Forcing a full page reload for a link, crossing Document boundaries** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/DOC-ACCURACY.md` (§5 — `data-reload`, `shouldIntercept`; undocumented upstream)
+- **Navigation stuck / URL and page out of sync / failed `navigate()`** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/DOC-ACCURACY.md` (§2, §3 — `onNavigationError`, `navigationTimeoutMs`)
+- **Blank page after deploy, missing client chunk** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/DOC-ACCURACY.md` (§4 — `onModuleNotFound`)
+- **React Compiler, Vite 8 upgrade, `@vitejs/plugin-react` v6** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/DOC-ACCURACY.md` (§1, §7) *before* `references/guides/optimize/react-compiler.mdx`
 - **Custom HTTP methods, HEAD requests** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/routing.mdx` + `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-router.mdx`
 - **Query parameters, searchParams** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/routing.mdx`
 - **Building with AI, llms.txt** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/build-with-ai.mdx`

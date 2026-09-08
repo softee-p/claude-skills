@@ -1,5 +1,9 @@
 # shadcn/ui Component Customizations Template
 
+> **This is a template.** Copy it into your project (e.g. `docs/shadcn-customizations.md`)
+> and edit the copy. Do not edit it where it ships — the plugin directory is shared across
+> every project and is replaced on plugin update.
+
 **This document tracks customizations made to shadcn/ui components in your RedwoodSDK project.**
 
 When you customize a component, add it to the appropriate section below with:
@@ -86,12 +90,13 @@ When you customize a component, add it to the appropriate section below with:
    - [Describe any functionality changes]
    - [List new variants or options]
 
-**Update Strategy:**
-1. Backup before updating: `bash ${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/scripts/backup-components.sh`
-2. Update via CLI: `pnpx shadcn@latest add component-name --overwrite`
-3. Restore from backup: `bash ${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/scripts/restore-components.sh`
-4. If you want shadcn's new features:
-   - Compare `.shadcn-backup/component-name.tsx` with current version
+**Update Strategy** (run from the project root):
+1. Snapshot: `bash ${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/scripts/backup-components.sh`
+2. Update: `pnpm dlx shadcn@latest add component-name --overwrite`
+3. If the update clobbered a customization, roll that one file back:
+   `bash ${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/scripts/restore-components.sh component-name.tsx`
+4. If you want shadcn's new features instead:
+   - Compare `.shadcn-backup/<timestamp>/component-name.tsx` with the current version
    - Manually merge new features while preserving custom attributes
    - Test both server and client component usage
 
@@ -101,9 +106,9 @@ When you customize a component, add it to the appropriate section below with:
 
 **These components have no customizations and match shadcn defaults exactly.**
 
-**Update Command:**
+**Update Command** (from the project root):
 ```bash
-pnpx shadcn@latest add <component-name> --overwrite
+bash ${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/scripts/safe-update.sh <component-name>
 ```
 
 **List your standard components here:**
@@ -266,5 +271,5 @@ If YES → Add to "Standard Components" list
 
 - **React Server Components:** Most shadcn components have `"use client"` - this is expected for interactive components
 - **Version control:** Always commit before running shadcn updates to easily revert if needed
-- **Backup directory:** `.shadcn-backup/` contains backed-up components (gitignored by default)
+- **Backup directory:** `.shadcn-backup/<timestamp>/` holds a full snapshot of the UI directory per run — add `.shadcn-backup/` to `.gitignore`
 - **Package manager:** Scripts auto-detect pnpm, yarn, or npm based on lock files

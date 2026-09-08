@@ -31,6 +31,15 @@ General-purpose skill for managing shadcn/ui components in ANY RedwoodSDK projec
 - Access to `rwsdk-docs` skill (fetches latest shadcn guide from RedwoodSDK docs)
 - Optional: shadcn MCP server for enhanced component management
 
+**Where things run and live:**
+- **Always run the bundled scripts from the project root** (the directory with `package.json`).
+  They act on the current working directory and take component names as arguments — there is
+  nothing to edit inside them.
+- **Per-project findings belong in the project**, never in the plugin directory. The plugin is
+  shared across every project on this machine and is replaced wholesale on plugin update, so
+  anything written there is both wrong for other projects and lost on the next update.
+- Backups go to `.shadcn-backup/<timestamp>/` in the project. Add it to `.gitignore`.
+
 ---
 
 ## How This Skill Works
@@ -65,7 +74,7 @@ This skill provides a safe workflow for ANY RedwoodSDK project:
 4. Verify installation by checking for MCP tools again
 
 **If available or user declines:**
-- Proceed with standard shadcn CLI commands (`pnpx shadcn@latest`)
+- Proceed with standard shadcn CLI commands (`pnpm dlx shadcn@latest`, `npx shadcn@latest`, …)
 - Note: MCP server provides enhanced functionality but is optional
 
 ### Fetch RedwoodSDK shadcn Guide
@@ -153,7 +162,10 @@ Standard Components (safe to update):
 - [List of components]
 ```
 
-**Document findings** in `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/references/customizations.md` (create if doesn't exist).
+**Document findings in the project**, e.g. `docs/shadcn-customizations.md`. Use
+[references/customizations.md](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/references/customizations.md) as the **template** — copy it
+into the project on first run, then keep the project's copy up to date. Do not write to the
+template itself.
 
 ---
 
@@ -165,21 +177,21 @@ Standard Components (safe to update):
 
 For components with no customizations:
 
-**Using shadcn CLI:**
+**Using shadcn CLI** (from the project root):
 ```bash
-# Detect package manager
-PKG_MGR=$(
-  if [ -f "pnpm-lock.yaml" ]; then echo "pnpx"
+# Detect the package manager's exec command
+PKG_EXEC=$(
+  if [ -f "pnpm-lock.yaml" ]; then echo "pnpm dlx"
   elif [ -f "yarn.lock" ]; then echo "yarn dlx"
-  elif [ -f "package-lock.json" ]; then echo "npx"
+  elif [ -f "bun.lockb" ] || [ -f "bun.lock" ]; then echo "bunx"
   else echo "npx"; fi
 )
 
 # Single component
-$PKG_MGR shadcn@latest add input --overwrite
+$PKG_EXEC shadcn@latest add input --overwrite
 
 # Multiple components
-$PKG_MGR shadcn@latest add input alert label --overwrite
+$PKG_EXEC shadcn@latest add input alert label --overwrite
 ```
 
 **Using shadcn MCP** (if available):
@@ -192,46 +204,42 @@ Parameters: component="input", overwrite=true
 
 For projects with custom/modified components, use the automated workflow:
 
-**1. Backup custom/modified components:**
+**1. Snapshot the whole UI directory** (no arguments — nothing can be missed by a stale list):
 ```bash
 bash ${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/scripts/backup-components.sh
 ```
 
-**2. Update standard components:**
+**2. Update the components you classified as standard:**
 ```bash
-# Via CLI or MCP as detected in Phase 0
-$PKG_MGR shadcn@latest add [component-list] --overwrite
+$PKG_EXEC shadcn@latest add [component-list] --overwrite
 ```
 
-**3. Restore custom/modified components:**
+**3. Roll back anything the update clobbered.** Restore is deliberate and selective —
+auto-restoring everything would discard the update you just ran:
 ```bash
-bash ${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/scripts/restore-components.sh
+bash ${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/scripts/restore-components.sh --list            # what's in the snapshot
+bash ${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/scripts/restore-components.sh button.tsx card.tsx
+bash ${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/scripts/restore-components.sh --all             # full rollback
 ```
 
 **4. Validate:**
 ```bash
-# Detect package manager
-PKG_MGR=$(
-  if [ -f "pnpm-lock.yaml" ]; then echo "pnpm"
-  elif [ -f "yarn.lock" ]; then echo "yarn"
-  elif [ -f "package-lock.json" ]; then echo "npm"
-  else echo "npm"; fi
-)
-
-# Type check
 $PKG_MGR run types
-
-# Build
 $PKG_MGR run build
 ```
 
 #### Full Automated Workflow
 
-Run the safe-update script (detects package manager, backs up, updates, restores, validates):
+Run the safe-update script from the project root, naming the components to update. It
+detects the package manager and UI directory, snapshots, updates, **reports exactly which
+files changed against the snapshot**, then type-checks and builds:
 
 ```bash
-bash ${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/scripts/safe-update.sh
+bash ${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/scripts/safe-update.sh input alert label
 ```
+
+Review the `[MODIFIED]` list it prints — that is where a customization may have been
+overwritten — and roll back individual files with `restore-components.sh`.
 
 ---
 
@@ -243,7 +251,7 @@ bash ${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/scripts/safe-update.sh
 
 **Using shadcn CLI:**
 ```bash
-$PKG_MGR shadcn@latest add [component-name]
+$PKG_EXEC shadcn@latest add [component-name]
 ```
 
 **Using shadcn MCP** (if available):
@@ -315,7 +323,8 @@ $PKG_MGR run dev
 
 **5. Document if customized:**
 
-If you add customizations, update `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/references/customizations.md` with:
+If you add customizations, update the **project's** customizations doc (e.g.
+`docs/shadcn-customizations.md`) with:
 - Component name
 - Type (custom/modified/standard)
 - Description of customizations
@@ -459,13 +468,14 @@ grep -r "from \"@/app/components/ui" src/ --include="*.tsx" --include="*.ts"
 2. **Run project analysis** (Phase 1) if not done recently
 3. **Backup** custom/modified components
 4. **Fetch latest docs** using `rwsdk-docs` skill
+5. **Run from the project root** — the scripts act on the current working directory
 
 ### During Component Operations
 
 1. **Use MCP server** when available for better reliability
 2. **Verify RSC compliance** - Default to server components
 3. **Test incrementally** - Don't update all components at once
-4. **Document customizations** - Update `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/references/customizations.md`
+4. **Document customizations** - Update the project's customizations doc
 
 ### After Component Operations
 
@@ -488,28 +498,30 @@ grep -r "from \"@/app/components/ui" src/ --include="*.tsx" --include="*.ts"
 
 ## Scripts Reference
 
-All scripts located in `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/scripts/`:
+All scripts located in `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/scripts/`. **Run them from the project root.**
 
-- **backup-components.sh** - Backup custom/modified components to `.shadcn-backup/`
-- **restore-components.sh** - Restore components from `.shadcn-backup/`
-- **safe-update.sh** - Full automated workflow (backup, update, restore, validate)
+| Script | Arguments | What it does |
+|---|---|---|
+| `backup-components.sh` | none | Snapshots the entire UI directory to `.shadcn-backup/<timestamp>/` |
+| `restore-components.sh` | `--list` \| `--all` \| `<file...>` | Restores from the most recent snapshot |
+| `safe-update.sh` | `<component...>` | Snapshot → update → change report → type check → build |
 
 **All scripts:**
-- Are safe to run multiple times
-- Auto-detect package manager (pnpm/yarn/npm)
+- Are safe to run multiple times; each backup is a new timestamped snapshot
+- Resolve the UI directory from `components.json` (`aliases.ui`), falling back to
+  `src/app/components/ui`, `src/components/ui`, `app/components/ui`, `components/ui`
+- Auto-detect the package manager (pnpm/yarn/npm/bun)
 - Use text markers instead of emojis
-- Adapt to project structure
+- **Need no editing.** Component names are arguments, not hardcoded lists
 
-**Customizing scripts** for your project:
-- Edit backup-components.sh to list your custom/modified components
-- Scripts read from `.shadcn-backup/` directory (gitignored by default)
+**Overrides:** `SHADCN_UI_DIR=<path>` and `SHADCN_BACKUP_DIR=<path>` if detection guesses wrong.
 
 ---
 
 ## Additional Resources
 
 **In this skill:**
-- **[customizations.md](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/references/customizations.md)** - Template for documenting component customizations
+- **[references/customizations.md](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/references/customizations.md)** - **Template** to copy into the project for documenting component customizations (never edited in place)
 - **[README.md](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/README.md)** - How this skill works and how to share it
 
 **External resources (use `rwsdk-docs` skill):**
@@ -530,7 +542,7 @@ This skill is designed to be **general-purpose** and can be shared publicly:
 
 1. **No project-specific code** - Adapts to any RedwoodSDK project
 2. **Dynamic documentation** - Fetches latest info via `rwsdk-docs` skill
-3. **Custom component detection** - Analyzes each project's specific setup
+3. **Custom component detection** - Analyzes each project's specific setup, writing findings into that project
 4. **Package manager agnostic** - Works with pnpm, yarn, or npm
 5. **Template-based** - Customizations doc adapts to user's components
 

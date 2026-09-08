@@ -1,132 +1,79 @@
-#!/bin/bash
-# Safe update workflow for shadcn/ui components
-# This script orchestrates backup, update, restore, and testing
+#!/usr/bin/env bash
+set -euo pipefail
+# Backup -> update the named components -> report what changed -> validate.
 #
-# IMPORTANT: Customize the STANDARD_COMPONENTS list below for your project!
-# Run Phase 1 analysis from SKILL.md to identify which components are safe to update.
+# Usage: safe-update.sh <component> [component...]
+#   e.g. safe-update.sh input alert label
+#
+# Pass ONLY components you determined are safe to overwrite (Phase 1 of SKILL.md).
+# Customized components are deliberately NOT auto-restored: that would silently
+# discard the update you just asked for. Use restore-components.sh if you need to
+# roll one back.
+#
+# Env: SHADCN_UI_DIR, SHADCN_BACKUP_DIR
 
-set -e
-
+# shellcheck source=_common.sh
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../../.." && pwd)"
+. "$SCRIPT_DIR/_common.sh"
 
-cd "$PROJECT_ROOT"
+[ "$#" -ge 1 ] || die "no components given. Usage: safe-update.sh <component> [component...]"
 
-# Detect package manager
-if [ -f "pnpm-lock.yaml" ]; then
-    PKG_MGR="pnpm"
-    PKG_EXEC="pnpx"
-elif [ -f "yarn.lock" ]; then
-    PKG_MGR="yarn"
-    PKG_EXEC="yarn dlx"
-elif [ -f "package-lock.json" ]; then
-    PKG_MGR="npm"
-    PKG_EXEC="npx"
-else
-    echo "[WARNING] Could not detect package manager. Defaulting to npm."
-    PKG_MGR="npm"
-    PKG_EXEC="npx"
-fi
+require_project_root
+UI_DIR="$(detect_ui_dir)"
+PKG_MGR="$(detect_pkg_mgr)"
+PKG_EXEC="$(detect_pkg_exec)"
 
-echo "[INFO] Detected package manager: $PKG_MGR"
-echo "[INFO] Starting safe shadcn/ui component update workflow..."
+echo "[INFO] Project:         $(pwd)"
+echo "[INFO] UI directory:    $UI_DIR"
+echo "[INFO] Package manager: $PKG_MGR (exec: $PKG_EXEC)"
+echo "[INFO] Components:      $*"
 echo ""
 
-# ========================================
-# CUSTOMIZE THIS LIST FOR YOUR PROJECT
-# ========================================
-# After running Phase 1 analysis, list ONLY standard components here.
-# Standard components = no customizations, safe to update via CLI.
-#
-# Example:
-# STANDARD_COMPONENTS=(
-#   input
-#   alert
-#   label
-#   popover
-#   select
-#   avatar
-#   table
-# )
-
-STANDARD_COMPONENTS=(
-  # Add your standard components here after Phase 1 analysis
-)
-
-# Step 1: Backup
-echo "========================================"
-echo "STEP 1: Backing up custom components"
-echo "========================================"
+echo "=== STEP 1: Backup ==="
 bash "$SCRIPT_DIR/backup-components.sh"
+BACKUP="$(latest_backup || true)"; BACKUP="${BACKUP%/}"
+[ -n "$BACKUP" ] || die "backup step did not produce a snapshot."
 echo ""
 
-# Step 2: Update standard components
-echo "========================================"
-echo "STEP 2: Updating standard components"
-echo "========================================"
-echo "[INFO] Updating: ${STANDARD_COMPONENTS[*]}"
+echo "=== STEP 2: Update ==="
+# shellcheck disable=SC2086
+$PKG_EXEC shadcn@latest add "$@" --overwrite --yes
 echo ""
 
-# Update standard components (safe to update)
-$PKG_EXEC shadcn@latest add \
-  "${STANDARD_COMPONENTS[@]}" \
-  --overwrite \
-  --yes || true
-
+echo "=== STEP 3: What actually changed ==="
+CHANGED=0
+while IFS= read -r f; do
+    rel="${f#"$UI_DIR"/}"
+    if [ ! -f "$BACKUP/$rel" ]; then
+        echo "  [NEW]      $rel"; CHANGED=$((CHANGED+1))
+    elif ! cmp -s "$f" "$BACKUP/$rel"; then
+        echo "  [MODIFIED] $rel"; CHANGED=$((CHANGED+1))
+    fi
+done < <(find "$UI_DIR" -type f | sort)
+if [ "$CHANGED" -eq 0 ]; then echo "  (no files changed)"; fi
 echo ""
-echo "[SUCCESS] Standard components updated"
+echo "[INFO] Review each MODIFIED file for customizations that were overwritten:"
+echo "       diff $BACKUP/<file> $UI_DIR/<file>"
+echo "       Roll one back with: bash $SCRIPT_DIR/restore-components.sh <file>"
 echo ""
 
-# Step 3: Restore custom components
-echo "========================================"
-echo "STEP 3: Restoring custom components"
-echo "========================================"
-bash "$SCRIPT_DIR/restore-components.sh"
-echo ""
-
-# Step 4: Type check
-echo "========================================"
-echo "STEP 4: Type checking"
-echo "========================================"
+echo "=== STEP 4: Type check ==="
 if grep -q '"types"' package.json; then
-  if $PKG_MGR run types; then
+    $PKG_MGR run types || die "type check failed — review the errors above."
     echo "[SUCCESS] Type check passed"
-  else
-    echo "[ERROR] Type check failed - review errors above"
-    exit 1
-  fi
 else
-  echo "[WARNING] No 'types' script found in package.json, skipping type check"
+    echo "[WARNING] No 'types' script in package.json, skipping"
 fi
 echo ""
 
-# Step 5: Build check
-echo "========================================"
-echo "STEP 5: Build check"
-echo "========================================"
+echo "=== STEP 5: Build ==="
 if grep -q '"build"' package.json; then
-  if $PKG_MGR run build; then
+    $PKG_MGR run build || die "build failed — review the errors above."
     echo "[SUCCESS] Build succeeded"
-  else
-    echo "[ERROR] Build failed - review errors above"
-    exit 1
-  fi
 else
-  echo "[ERROR] No 'build' script found in package.json"
-  exit 1
+    echo "[WARNING] No 'build' script in package.json, skipping"
 fi
 echo ""
 
-# Success message
-echo "========================================"
-echo "[SUCCESS] SAFE UPDATE COMPLETE!"
-echo "========================================"
-echo ""
-echo "Next steps:"
-echo "  1. Test the app visually ($PKG_MGR run dev)"
-echo "  2. Check key pages that use shadcn components"
-echo "  3. Review diffs for modified components"
-echo "  4. Commit changes if everything works"
-echo ""
-echo "[WARNING] NOTE: Custom/modified components were restored from backup."
-echo "   If shadcn made improvements you want, manually merge them."
+echo "[SUCCESS] SAFE UPDATE COMPLETE"
+echo "Next: run the app ($PKG_MGR run dev), check the pages that use these components, then commit."

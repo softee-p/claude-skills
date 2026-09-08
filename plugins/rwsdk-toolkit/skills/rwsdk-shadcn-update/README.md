@@ -80,100 +80,94 @@ rwsdk-toolkit/skills/rwsdk-shadcn-update/
 ├── SKILL.md                          # Main skill instructions
 ├── README.md                         # This file
 ├── scripts/
-│   ├── backup-components.sh          # Backup custom/modified components
-│   ├── restore-components.sh         # Restore from backup
-│   └── safe-update.sh                # Full automated workflow
+│   ├── _common.sh                    # Shared detection helpers (sourced, not run)
+│   ├── backup-components.sh          # Snapshot the whole UI directory
+│   ├── restore-components.sh         # Restore files from the latest snapshot
+│   └── safe-update.sh                # Snapshot → update → change report → validate
 └── references/
-    └── customizations.md             # Template for documenting customizations
+    └── customizations.md             # TEMPLATE to copy into your project
 ```
 
 ## Scripts
 
+**Run every script from your project root** (the directory containing `package.json`). They
+act on the current working directory and take arguments — **none of them needs editing.**
+
+The UI directory is resolved from `components.json` (`aliases.ui`), falling back to
+`src/app/components/ui`, `src/components/ui`, `app/components/ui`, `components/ui`.
+Override with `SHADCN_UI_DIR`; override the backup location with `SHADCN_BACKUP_DIR`.
+
 ### backup-components.sh
 
-- Backs up custom/modified components to `.shadcn-backup/` directory
-- Project-agnostic: Edit the component list for your specific custom components
-- Safe to run multiple times
+```bash
+bash .../scripts/backup-components.sh
+```
+
+- Copies the **entire** UI directory to `.shadcn-backup/<timestamp>/`, so nothing can be
+  missed by a stale hand-maintained list
+- Each run is a new timestamped snapshot; safe to run repeatedly
 - No emojis (uses text markers: [INFO], [SUCCESS])
 
 ### restore-components.sh
 
-- Restores components from `.shadcn-backup/` directory
+```bash
+bash .../scripts/restore-components.sh --list
+bash .../scripts/restore-components.sh button.tsx card.tsx
+bash .../scripts/restore-components.sh --all
+```
+
+- Restores from the most recent snapshot, selectively or wholesale
 - Warns about manual merge needs for modified components
 - Safe to run multiple times
-- No emojis (uses text markers)
 
 ### safe-update.sh
 
-- Full automated workflow:
-  1. Backup custom/modified components
-  2. Update standard components via shadcn CLI
-  3. Restore custom/modified components
-  4. Run type check
-  5. Run build check
-- Auto-detects package manager (pnpm/yarn/npm)
+```bash
+bash .../scripts/safe-update.sh input alert label
+```
+
+1. Snapshots the UI directory
+2. Runs `shadcn@latest add <components> --overwrite --yes`
+3. **Reports exactly which files are `[NEW]` or `[MODIFIED]`** against the snapshot
+4. Runs the project's `types` script, if present
+5. Runs the project's `build` script, if present
+
+Customized components are deliberately **not** auto-restored — that would silently discard
+the update you just asked for. Roll individual files back with `restore-components.sh`.
+
+- Auto-detects package manager (pnpm/yarn/npm/bun)
 - No emojis (uses text markers)
 
-## Customizing for Your Project
 
-### 1. Identify Your Custom Components
+## Per-Project Setup
 
-Run Phase 1 analysis to detect:
-- Fully custom components (compositions, unique logic)
-- Modified components (custom attributes, styling)
-- Standard components (safe to update)
+The scripts need no customization. What *is* project-specific is the **classification** of
+your components, which Phase 1 of `SKILL.md` produces:
 
-### 2. Update backup-components.sh
+### 1. Identify your custom components
 
-Edit the script to list YOUR custom/modified components:
+Run the skill's Phase 1 analysis. It reads `components.json`, lists the UI directory, and
+sorts every component into three buckets:
 
-```bash
-# Backup custom components (never update these via CLI)
-if [ -f "$UI_DIR/YourCustomComponent.tsx" ]; then
-  cp "$UI_DIR/YourCustomComponent.tsx" "$BACKUP_DIR/"
-  echo "[SUCCESS] Backed up YourCustomComponent.tsx (custom component)"
-fi
+- **Custom** — not in the shadcn registry (compositions, project-specific logic). Never
+  update via the CLI.
+- **Modified** — a registry component you changed (custom `data-*` attributes, altered
+  variants, extra styling). Update deliberately, then check the `[MODIFIED]` report.
+- **Standard** — unchanged. Safe to pass to `safe-update.sh`.
 
-# Backup modified components (need manual merge after updates)
-if [ -f "$UI_DIR/your-modified-component.tsx" ]; then
-  cp "$UI_DIR/your-modified-component.tsx" "$BACKUP_DIR/"
-  echo "[SUCCESS] Backed up your-modified-component.tsx (modified component)"
-fi
+### 2. Record the classification in your project
+
+Copy `references/customizations.md` into your repo (e.g. `docs/shadcn-customizations.md`)
+and fill it in. **Keep it in the project, not in the plugin directory** — the plugin is
+shared across every project on your machine and is replaced on plugin update, so notes left
+there are wrong for other projects and lost on the next update.
+
+### 3. Add the backup directory to .gitignore
+
+```
+.shadcn-backup/
 ```
 
-### 3. Update restore-components.sh
-
-Match the restore script to your backup list:
-
-```bash
-# Restore YourCustomComponent (always restore - it's fully custom)
-if [ -f "$BACKUP_DIR/YourCustomComponent.tsx" ]; then
-  cp "$BACKUP_DIR/YourCustomComponent.tsx" "$UI_DIR/"
-  echo "[SUCCESS] Restored YourCustomComponent.tsx (custom component)"
-fi
-```
-
-### 4. Update safe-update.sh
-
-Edit the component list in the update section to match your standard components:
-
-```bash
-pnpx shadcn@latest add \
-  input \
-  alert \
-  label \
-  # ... your standard components ...
-  --overwrite \
-  --yes || true
-```
-
-### 5. Document Customizations
-
-Use `references/customizations.md` template to document:
-- Component name
-- Type (custom/modified/standard)
-- Description of customizations
-- Update strategy
 
 ## Sharing This Skill
 
@@ -250,7 +244,7 @@ When shadcn MCP server is available:
 
 When MCP server is not available:
 
-- **Falls back to CLI** - Uses `pnpx shadcn@latest` commands
+- **Falls back to CLI** - Uses `pnpm dlx` / `npx shadcn@latest` commands
 - **Still fully functional** - All core features work
 - **No degradation** - Same safety guarantees with backup/restore
 
@@ -261,7 +255,7 @@ When MCP server is not available:
 - Check that component files are in the path specified by `components.json`
 - Verify component files have `.tsx` extension
 - Look for custom `data-*` attributes or modified variants manually
-- Update backup scripts to include your specific custom components
+- Set `SHADCN_UI_DIR=<path>` if the directory is in a non-standard location
 
 ### "MCP server installation fails"
 
@@ -271,9 +265,9 @@ When MCP server is not available:
 
 ### "Scripts don't work with my package manager"
 
-- Scripts auto-detect pnpm, yarn, or npm
-- Check that your lock file exists (pnpm-lock.yaml, yarn.lock, or package-lock.json)
-- Manually set PKG_MGR variable if detection fails
+- Scripts auto-detect pnpm, yarn, npm, and bun
+- Check that your lock file exists (pnpm-lock.yaml, yarn.lock, package-lock.json, bun.lock)
+- npm is used as the fallback when no lock file is present
 
 ## License
 

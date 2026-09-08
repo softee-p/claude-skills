@@ -1,57 +1,52 @@
-#!/bin/bash
-# Restore custom shadcn/ui components after updates
+#!/usr/bin/env bash
+set -euo pipefail
+# Restore shadcn/ui components from the most recent backup.
 #
-# IMPORTANT: Customize this script for your project!
-# Edit the component list below to match YOUR custom/modified components.
-# This should mirror the components listed in backup-components.sh.
+# Usage:
+#   restore-components.sh --all                 Restore every backed-up file
+#   restore-components.sh button.tsx card.tsx   Restore only these files
+#   restore-components.sh --list                Show what the backup contains
+#
+# Env: SHADCN_UI_DIR, SHADCN_BACKUP_DIR
 
-set -e
+# shellcheck source=_common.sh
+. "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/_common.sh"
 
-BACKUP_DIR=".shadcn-backup"
-UI_DIR="src/app/components/ui"
+require_project_root
+UI_DIR="$(detect_ui_dir)"
 
-if [ ! -d "$BACKUP_DIR" ]; then
-  echo "[ERROR] No backup directory found at $BACKUP_DIR"
-  echo "Run backup-components.sh first!"
-  exit 1
+SRC="$(latest_backup || true)"
+[ -n "$SRC" ] || die "no backup found under '$BACKUP_ROOT'. Run backup-components.sh first."
+SRC="${SRC%/}"
+echo "[INFO] Restoring from $SRC -> $UI_DIR"
+
+if [ "$#" -eq 0 ]; then
+    die "nothing to restore. Pass --all, --list, or one or more filenames."
 fi
 
-echo "[INFO] Restoring custom shadcn components..."
+if [ "$1" = "--list" ]; then
+    (cd "$SRC" && find . -type f | sed 's|^\./|  |' | sort)
+    exit 0
+fi
 
-# ========================================
-# CUSTOMIZE THIS SECTION FOR YOUR PROJECT
-# ========================================
-# This should match the components in backup-components.sh.
-#
-# Custom components: Always restore (they're fully custom)
-# Modified components: Restore and check for manual merge needs
+mkdir -p "$UI_DIR"
 
-# Example restore for custom component:
-# if [ -f "$BACKUP_DIR/CustomComponent.tsx" ]; then
-#   cp "$BACKUP_DIR/CustomComponent.tsx" "$UI_DIR/"
-#   echo "[SUCCESS] Restored CustomComponent.tsx (custom component)"
-# else
-#   echo "[WARNING] CustomComponent.tsx not found in backup"
-# fi
+if [ "$1" = "--all" ]; then
+    cp -R "$SRC"/. "$UI_DIR"/
+    echo "[SUCCESS] Restored all files from backup"
+else
+    for name in "$@"; do
+        if [ -f "$SRC/$name" ]; then
+            cp "$SRC/$name" "$UI_DIR/$name"
+            echo "[SUCCESS] Restored $name"
+        else
+            echo "[WARNING] $name not found in backup — skipped"
+        fi
+    done
+fi
 
-# Example restore for modified component:
-# if [ -f "$BACKUP_DIR/button.tsx" ]; then
-#   cp "$BACKUP_DIR/button.tsx" "$UI_DIR/"
-#   echo "[SUCCESS] Restored button.tsx (modified component)"
-#   echo "  [INFO] Check for new features to manually merge"
-# else
-#   echo "[WARNING] button.tsx not found in backup"
-# fi
-
-# Add your project's components below:
-# --------------------------------------
-
-
-# --------------------------------------
-
-echo "[SUCCESS] Restore complete!"
 echo ""
-echo "[INFO] IMPORTANT: For modified components:"
-echo "   - Check if shadcn made breaking changes"
-echo "   - Verify custom attributes/styling are preserved"
-echo "   - Test the components before committing"
+echo "[INFO] For components that were customized:"
+echo "   - diff against the freshly-added version to see what upstream changed"
+echo "   - re-apply any upstream improvements you still want by hand"
+echo "   - type check and build before committing"

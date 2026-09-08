@@ -1,52 +1,29 @@
-#!/bin/bash
-# Backup custom and modified shadcn/ui components before updates
+#!/usr/bin/env bash
+set -euo pipefail
+# Snapshot every shadcn/ui component in this project before an update.
 #
-# IMPORTANT: Customize this script for your project!
-# Edit the component list below to match YOUR custom/modified components.
-# Run Phase 1 analysis from SKILL.md to identify which components need backup.
-
-set -e
-
-BACKUP_DIR=".shadcn-backup"
-UI_DIR="src/app/components/ui"
-
-echo "[INFO] Backing up custom shadcn components..."
-
-# Create backup directory
-mkdir -p "$BACKUP_DIR"
-
-# ========================================
-# CUSTOMIZE THIS SECTION FOR YOUR PROJECT
-# ========================================
-# After running Phase 1 analysis, add your custom/modified components here.
+# Usage: backup-components.sh
+#   Run from the project root. No editing required — the whole UI directory is
+#   copied, so nothing can be missed by a stale hand-maintained list.
 #
-# Custom components (never update via CLI):
-#   - Components not in shadcn registry
-#   - Custom compositions combining multiple components
-#   - Example: DatePicker combining Button + Calendar + Popover
-#
-# Modified components (backup before updating):
-#   - Standard shadcn components with customizations
-#   - Components with custom data-* attributes
-#   - Components with modified variants or styling
+# Env: SHADCN_UI_DIR (override detection), SHADCN_BACKUP_DIR (default .shadcn-backup)
 
-# Example backup for custom component:
-# if [ -f "$UI_DIR/CustomComponent.tsx" ]; then
-#   cp "$UI_DIR/CustomComponent.tsx" "$BACKUP_DIR/"
-#   echo "[SUCCESS] Backed up CustomComponent.tsx (custom component)"
-# fi
+# shellcheck source=_common.sh
+. "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/_common.sh"
 
-# Example backup for modified component:
-# if [ -f "$UI_DIR/button.tsx" ]; then
-#   cp "$UI_DIR/button.tsx" "$BACKUP_DIR/"
-#   echo "[SUCCESS] Backed up button.tsx (modified component)"
-# fi
+require_project_root
+UI_DIR="$(detect_ui_dir)"
+[ -d "$UI_DIR" ] || die "UI directory '$UI_DIR' does not exist."
 
-# Add your project's components below:
-# --------------------------------------
+STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
+DEST="$BACKUP_ROOT/$STAMP"
+mkdir -p "$DEST"
+cp -R "$UI_DIR"/. "$DEST"/
 
+COUNT="$(find "$DEST" -type f | wc -l | tr -d ' ')"
+echo "[SUCCESS] Backed up $COUNT file(s) from $UI_DIR -> $DEST"
 
-# --------------------------------------
-
-echo "[SUCCESS] Backup complete at $BACKUP_DIR/"
-echo "[INFO] Remember to add your custom/modified components to this script!"
+if [ -f .gitignore ] && ! grep -qx "${BACKUP_ROOT%/}/" .gitignore 2>/dev/null \
+   && ! grep -qx "${BACKUP_ROOT%/}" .gitignore 2>/dev/null; then
+    echo "[INFO] Consider adding '${BACKUP_ROOT%/}/' to .gitignore"
+fi
