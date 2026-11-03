@@ -61,9 +61,9 @@ Do not read the saved files into the conversation; they hold every page's HTML. 
 python3 -I "${CLAUDE_SKILL_DIR}/scripts/summarize_crawl.py" "$TMPDIR"/crawl-*.json
 ```
 
-It reports status codes, redirects, pages not fetched, missing or duplicate titles and descriptions, missing H1, noindex, missing or mismatched canonicals, links to error pages, and pages no crawled page links to. Add `--max N` to list more URLs per issue.
+It separates issues, which break a rule, from notes, which may be fine. It covers status codes, redirects and chains, pages not fetched, titles, descriptions, H1s, `noindex`, canonicals, hreflang, JSON-LD, alt text, thin or identical pages, and internal links. Add `--max N` to list more URLs per issue, and `--origin https://www.example.com` when the crawled host isn't the production host.
 
-It can't see response headers, so sample `X-Robots-Tag` with `curl -s -D - -o /dev/null URL`. Judge each finding against the site's intent: a `noindex` on a thank-you page is correct.
+A Browser Run record has no response headers, so sample `X-Robots-Tag` with `curl -s -D - -o /dev/null URL`. Judge each finding against the site's intent: a `noindex` on a thank-you page is correct.
 
 ## 5. Read the limits into the result
 

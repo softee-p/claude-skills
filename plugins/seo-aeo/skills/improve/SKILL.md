@@ -25,7 +25,7 @@ Scans, crawls and AEO measurement need a public site, so leave them for later an
 
 1. **Use the old site's data.** If the new site replaces one on the same domain, look for its Search Console property and run `seo-aeo:long-tail-questions` on it. Real queries show what the new copy must answer, and the top pages show which old URLs must redirect.
 2. **Apply the playbook to copy as it's written:** question-shaped headings, the direct answer first, and facts from the owner. Wording is cheapest to change now.
-3. **Check what already exists.** Compare the repo and its tests with the plan step of `seo-aeo:ai-readable-site`, and add only what's missing and worth keeping. If the stack may change before launch, prefer changes to content over framework code.
+3. **Audit the source and copy.** Offer `/seo-aeo:site-audit`. It works from a local build, and the user starts it because it spawns four subagents. If the stack may change before launch, prefer changes to content over framework code.
 4. **Just before launch,** once pages and images are final, offer `/seo-aeo:perf-audit`.
 5. **On launch day,** run `seo-aeo:rendered-crawl` and `seo-aeo:agent-readiness` against production. Start `seo-aeo:aeo-measure` once a few weeks of data exist.
 
@@ -34,7 +34,7 @@ Scans, crawls and AEO measurement need a public site, so leave them for later an
 For a public site:
 
 1. **Scan.** Run `seo-aeo:agent-readiness` and list the concrete failures first.
-2. **Fix crawl and rendering basics before content:** robots, sitemap, status codes, canonicals, Core Web Vitals. Use `seo-aeo:rendered-crawl`. Offer `/seo-aeo:perf-audit`; it starts four subagents, so the user starts it.
+2. **Fix crawl and rendering basics before content:** robots, sitemap, status codes, canonicals, Core Web Vitals. Use `seo-aeo:rendered-crawl`. Offer `/seo-aeo:perf-audit` and `/seo-aeo:site-audit`; each starts four subagents, so the user starts them.
 3. **Add Organization and WebSite JSON-LD** that matches visible facts, and validate it. Do not hide content behind structured data alone. Steps are in `seo-aeo:ai-readable-site`.
 4. **Mine long-tail questions** from Search Console, cluster them and answer them on existing or new pages: `seo-aeo:long-tail-questions`.
 5. **Measure AEO** with Clarity grounding queries and, where available, Cloudflare AEO citation and mention rates: `seo-aeo:aeo-measure`. Prefer observed queries over invented keyword lists.

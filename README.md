@@ -172,7 +172,7 @@ Interactive map components for React with [mapcn](https://www.mapcn.dev/) — bu
 Improve a site's search rankings and its visibility in AI answers, within Google's spam policies. Unproven tactics are marked as unproven, and sources are checked against primary docs.
 
 <details>
-<summary>7 skills &ensp;·&ensp; 1 agent &ensp;·&ensp; 1 MCP server</summary>
+<summary>8 skills &ensp;·&ensp; 2 agents &ensp;·&ensp; 1 MCP server</summary>
 <br>
 
 | Skill | What it does |
@@ -181,6 +181,7 @@ Improve a site's search rankings and its visibility in AI answers, within Google
 | `/seo-aeo:agent-readiness` | Scans with isitagentready.com, sorts the failures, and re-scans after fixes |
 | `/seo-aeo:ai-readable-site` | Adds Markdown versions, llms.txt, AI crawler rules and JSON-LD, after a plan you approve |
 | `/seo-aeo:rendered-crawl` | Crawls with Cloudflare Browser Run and summarises status, titles, canonicals, noindex and links |
+| `/seo-aeo:site-audit` | Audits your source code and written copy from a local build, with no live site needed, then fixes what you approve. You start this one by hand |
 | `/seo-aeo:perf-audit` | Runs four read-only `perf-auditor` subagents, fixes in one pass, and measures Core Web Vitals again. You start this one by hand |
 | `/seo-aeo:long-tail-questions` | Clusters 8+ word Search Console queries into answers, and spots mini-tool demand |
 | `/seo-aeo:aeo-measure` | Compares Search Console, Clarity, Cloudflare AEO and AI Crawl Control data with your pages, run by run |

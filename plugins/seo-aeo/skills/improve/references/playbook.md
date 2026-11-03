@@ -72,7 +72,7 @@ Confirmed by test: the 8+ word regex in 2.1, `curl -sI` in 1.1, and the scan API
 - **How Claude should use it:**
   1. Export those queries.
   2. Cluster them by intent.
-  3. Answer each cluster with an FAQ-style H2/H3 on the page that already ranks, or with a new page.
+  3. Answer each cluster with an FAQ-style H2/H3 on the page that already ranks, or with a new page. Google stopped showing FAQ rich results on 7 May 2026 (https://developers.google.com/search/updates), so this is for readers and assistants, not for a rich result.
   4. These questions also look like AI-assistant prompts, so the same answers help AEO.
 - **Sources:** Regex filters in the Performance report: https://developers.google.com/search/blog/2021/06/regex-negative-match · Search Console overview: https://developers.google.com/search/docs/monitor-debug/search-console-start
 
@@ -159,7 +159,7 @@ Confirmed by test: the 8+ word regex in 2.1, `curl -sI` in 1.1, and the scan API
 
 No dedicated public "SEO Claude skill" repo was in the source set. UI-focused skills were left out on purpose.
 
-In this plugin: 1 is `seo-aeo:agent-readiness` (the MCP server is bundled), 2 is `seo-aeo:ai-readable-site`, 3 is `/seo-aeo:perf-audit`, 4 is `seo-aeo:aeo-measure` with `seo-aeo:long-tail-questions`, and 5 is `seo-aeo:rendered-crawl`.
+In this plugin: 1 is `seo-aeo:agent-readiness` (the MCP server is bundled), 2 is `seo-aeo:ai-readable-site`, 3 is `/seo-aeo:perf-audit`, 4 is `seo-aeo:aeo-measure` with `seo-aeo:long-tail-questions`, and 5 is `seo-aeo:rendered-crawl`. `/seo-aeo:site-audit` is an addition to this playbook: it audits a site's source and copy from a local build.
 
 ## 6. Checklists & tips (quick list)
 
