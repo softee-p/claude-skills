@@ -29,12 +29,12 @@ Docs are current as of **rwsdk 1.7.3**. Because the official docs site trails th
 
 | Command | What it does |
 |---------|-------------|
-| `/rwsdk:new` | Scaffold a new project or add a route/page/component |
-| `/rwsdk:fix` | 4-phase visual frontend debugging |
-| `/rwsdk:components` | Add or update shadcn/ui components safely |
-| `/rwsdk:audit` | 6-phase production health audit |
-| `/rwsdk:docs` | Look up a specific documentation topic |
-| `/rwsdk:sync` | Sync docs with the latest official RedwoodSDK docs |
+| `/rwsdk-toolkit:new` | Scaffold a new project or add a route/page/component |
+| `/rwsdk-toolkit:fix` | 4-phase visual frontend debugging |
+| `/rwsdk-toolkit:components` | Add or update shadcn/ui components safely |
+| `/rwsdk-toolkit:audit` | 6-phase production health audit |
+| `/rwsdk-toolkit:docs` | Look up a specific documentation topic |
+| `/rwsdk-toolkit:sync` | Sync docs with the latest official RedwoodSDK docs |
 
 <br>
 
@@ -167,6 +167,32 @@ Interactive map components for React with [mapcn](https://www.mapcn.dev/) — bu
 
 <br>
 
+### `seo-aeo`
+
+Improve a site's search rankings and its visibility in AI answers, within Google's spam policies. Unproven tactics are marked as unproven, and sources are checked against primary docs.
+
+<details>
+<summary>7 skills &ensp;·&ensp; 1 agent &ensp;·&ensp; 1 MCP server</summary>
+<br>
+
+| Skill | What it does |
+|-------|-------------|
+| `/seo-aeo:improve` | Sets the order of work and the limits, and hands each part to the skills below. For a site that isn't public yet, it skips the scans and works from the old site's data and the copy |
+| `/seo-aeo:agent-readiness` | Scans with isitagentready.com, sorts the failures, and re-scans after fixes |
+| `/seo-aeo:ai-readable-site` | Adds Markdown versions, llms.txt, AI crawler rules and JSON-LD, after a plan you approve |
+| `/seo-aeo:rendered-crawl` | Crawls with Cloudflare Browser Run and summarises status, titles, canonicals, noindex and links |
+| `/seo-aeo:perf-audit` | Runs four read-only `perf-auditor` subagents, fixes in one pass, and measures Core Web Vitals again. You start this one by hand |
+| `/seo-aeo:long-tail-questions` | Clusters 8+ word Search Console queries into answers, and spots mini-tool demand |
+| `/seo-aeo:aeo-measure` | Compares Search Console, Clarity, Cloudflare AEO and AI Crawl Control data with your pages, run by run |
+
+<br>
+
+While the plugin is enabled, each session connects to `isitagentready.com` through the bundled MCP server. See the [plugin's README](plugins/seo-aeo/README.md) for what it needs and what it leaves to you.
+
+</details>
+
+<br>
+
 ### `autoresearch`
 
 Autonomous skill improvement via iterative testing — based on [Andrej Karpathy's autoresearch method](https://github.com/karpathy/autoresearch). Runs a target skill against a yes/no scoring checklist, makes one small prompt change per round, keeps what works, reverts what doesn't.
@@ -220,6 +246,7 @@ Then install what you need:
 /plugin install pretext@mkw-claude-plugins
 /plugin install heerich@mkw-claude-plugins
 /plugin install mapcn-toolkit@mkw-claude-plugins
+/plugin install seo-aeo@mkw-claude-plugins
 /plugin install autoresearch@mkw-claude-plugins
 /plugin install wsl-chrome-patch@mkw-claude-plugins
 ```

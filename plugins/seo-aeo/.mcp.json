@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "agent-readiness": {
+      "type": "http",
+      "url": "https://isitagentready.com/mcp"
+    }
+  }
+}
