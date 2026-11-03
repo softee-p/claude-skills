@@ -19,6 +19,34 @@ If the site isn't public yet, `improve` skips the scans and works from the old s
 
 In the VS Code extension, `/plugin` isn't available: type `/plugins` to open the Manage plugins dialog, or run these from a terminal with `claude plugin marketplace add softee-p/claude-skills` and `claude plugin install seo-aeo@mkw-claude-plugins`.
 
+To update, run these from a terminal, then restart Claude Code. This marketplace doesn't auto-update unless you turn that on:
+
+```bash
+claude plugin marketplace update mkw-claude-plugins
+claude plugin update seo-aeo@mkw-claude-plugins
+```
+
+## Cloud sessions
+
+A cloud session doesn't load plugins installed on your machine, or plugins that a repository's `.claude/settings.json` turns on. Try installing it from the cloud environment's setup script (Claude Code v2.1.292 or later). **This hasn't been tested in a cloud session yet:**
+
+```bash
+#!/bin/bash
+claude plugin install seo-aeo --marketplace softee-p/claude-skills
+```
+
+If that doesn't work, a repository can commit copies to `.claude/skills/` and `.claude/agents/`, which cloud sessions do load. References to `${CLAUDE_PLUGIN_ROOT}` would then need changing, and the copies would need keeping in step with the plugin.
+
+What each skill needs there:
+
+| Skill | In a cloud session |
+|---|---|
+| `site-audit`, `perf-audit` | Need the repository to build and serve locally in the session's VM. A real browser for `perf-audit` isn't guaranteed |
+| `long-tail-questions`, `aeo-measure` | Need the exports committed or otherwise available in the session |
+| `agent-readiness` | `isitagentready.com` isn't on the default Trusted list, so add it with Custom network access |
+| `ai-readable-site` | Works for code changes; the checks need the local build |
+| `rendered-crawl` | Needs a signed-in `cf`, which a cloud session doesn't have. Run it locally |
+
 ## What's in it
 
 | Skill | What it does |

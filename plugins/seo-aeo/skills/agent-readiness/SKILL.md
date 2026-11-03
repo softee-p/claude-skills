@@ -39,6 +39,8 @@ curl -sS -m 90 -X POST https://isitagentready.com/api/scan \
 - With `"format":"agent"` you get Markdown: the score, then one `##` section per failing check with a link to an implementation guide.
 - Without `format` you get JSON with each check's `status`, `message` and `evidence`. Use it to see what the scanner actually fetched.
 
+**Don't trust a level until you've read the JSON.** A check can come back `unableToCheck`, and its message may mention an aborted request. That means the scanner couldn't reach the file, not that the file is missing, and other checks that depend on it then fail too. The Markdown output doesn't show this. On one real site, two scans minutes apart gave levels 0 and 1, and the scanner couldn't fetch a `robots.txt` that `curl` got in under a second. So scan twice, compare, confirm doubtful results with `curl`, and report any check it couldn't make.
+
 ## 4. List the failures before changing anything
 
 Report the level and every failing check, sorted like this:
