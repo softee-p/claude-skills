@@ -1,0 +1,19 @@
+{
+  "name": "seo-aeo",
+  "displayName": "SEO and AEO",
+  "version": "0.1.0",
+  "description": "Improve a site's search rankings and its visibility in AI answers: agent-readiness scans, AI-readable pages, rendered crawl audits, Core Web Vitals, long-tail question mining and AEO measurement, within Google's spam policies.",
+  "author": {
+    "name": "softee-p"
+  },
+  "license": "MIT",
+  "keywords": [
+    "seo",
+    "aeo",
+    "llms-txt",
+    "agent-readiness",
+    "core-web-vitals",
+    "search-console",
+    "cloudflare"
+  ]
+}
