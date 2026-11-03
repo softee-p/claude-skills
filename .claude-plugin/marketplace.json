@@ -75,8 +75,8 @@
     {
       "name": "seo-aeo",
       "source": "./plugins/seo-aeo",
-      "description": "Improve a site's search rankings and its visibility in AI answers: agent-readiness scans, AI-readable pages, rendered crawl audits, Core Web Vitals, long-tail question mining and AEO measurement, within Google's spam policies.",
-      "version": "0.1.0",
+      "description": "Improve a site's search rankings and its visibility in AI answers: source and copy audits, agent-readiness scans, AI-readable pages, rendered crawl audits, Core Web Vitals, long-tail question mining and AEO measurement, within Google's spam policies.",
+      "version": "0.2.0",
       "category": "marketing",
       "tags": ["seo", "aeo", "llms-txt", "agent-readiness", "core-web-vitals", "search-console"]
     }

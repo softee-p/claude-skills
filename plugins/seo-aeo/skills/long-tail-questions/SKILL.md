@@ -33,7 +33,7 @@ Group queries that a single answer would satisfy. For each cluster, record the q
 
 ## 3. Decide per cluster
 
-- **A page already ranks or fits:** add an FAQ-style H2 or H3 in the question's words, with the direct answer in the first sentence.
+- **A page already ranks or fits:** add an FAQ-style H2 or H3 in the question's words, with the direct answer in the first sentence. This is for readers and assistants: Google stopped showing FAQ rich results in May 2026, so don't add `FAQPage` markup expecting one.
 - **No page fits and the demand is real:** propose a new page. Avoid near-duplicate pages per query.
 - **The site can't answer truthfully:** say so. Facts come from the site's own content or the owner, never from guesses.
 
