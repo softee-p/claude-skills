@@ -29,7 +29,7 @@ Read the repo's own instructions first; they override this skill. Then note:
 
 ## 2. Crawl a local build
 
-Build and serve the site the way the repo documents. Exclude non-page routes, and pass the production origin so its links count as internal. In a sandbox, a server stops when its command ends, so start it and crawl in one command:
+Build and serve the site the way the repo documents. Exclude non-page routes, and pass the production origin so its links count as internal. In some sandboxes a server stops when its command ends (a local sandboxed Bash does this; a Claude Code cloud session kept it running), so the safe way is to start it and crawl in one command:
 
 ```bash
 mkdir -p "$TMPDIR/site-audit"
@@ -46,7 +46,9 @@ python3 -I "${CLAUDE_PLUGIN_ROOT}/skills/rendered-crawl/scripts/summarize_crawl.
 
 The crawl runs no JavaScript, so it shows what a crawler without a browser gets. `summary.md` lists the mechanical issues and notes. `pages/` holds each page's main text, link text and alt text, indexed in `pages/INDEX.tsv`. Don't read `crawl.json` into the conversation; it holds every page's HTML.
 
-Some notes are expected off production, such as `noindex` everywhere or an empty sitemap. For those, read the code that switches them on production.
+Some notes are expected off production, such as `noindex` everywhere or an empty sitemap. For those, read the code that switches them on production. With `--origin`, a link to the live site, such as a preview banner's, counts as internal too, so it can show up under links into another language.
+
+The summary notes titles and descriptions that end in an ellipsis (T9, C5) and internal links that lead into another language (T4, C14). A description over 160 characters is fine when it ends on a whole sentence.
 
 If the site won't build, audit the source alone and say what that leaves unchecked.
 

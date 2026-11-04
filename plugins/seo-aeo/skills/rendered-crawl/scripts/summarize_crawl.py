@@ -29,6 +29,12 @@ GENERIC_ANCHORS = {"click here", "here", "read more", "learn more", "more", "lin
                    "hier", "hier klicken", "mehr", "weiterlesen", "mehr erfahren",
                    "εδώ", "περισσότερα", "διαβάστε περισσότερα"}
 HREFLANG = re.compile(r"^(x-default|[a-zA-Z]{2,3}(-[a-zA-Z0-9]{2,8})*)$")
+ELLIPSIS = ("…", "...")
+
+
+def primary_lang(lang):
+    """The language without its region: "de-AT" -> "de"."""
+    return (lang or "").split("-")[0].lower()
 
 
 class Page(HTMLParser):
@@ -248,6 +254,7 @@ def main():
     titles, descriptions, bodies = defaultdict(list), defaultdict(list), defaultdict(list)
     statuses, states, groups, jsonld_types, languages = Counter(), Counter(), Counter(), Counter(), Counter()
     by_url, redirects, inbound, links_from, alternates_of = {}, {}, Counter(), {}, {}
+    lang_of = {}
     generic = defaultdict(list)
     no_html, pages_index = 0, []
     fetched_pages, noindexed = 0, set()
@@ -288,6 +295,7 @@ def main():
         words = len(text.split())
         title = " ".join(page.title.split())
         fetched_pages += 1
+        lang_of[normal(url)] = primary_lang(page.lang)
         if "noindex" in page.robots:
             noindexed.add(url)
         if len(page.canonicals) > 1:
@@ -310,12 +318,17 @@ def main():
                 titles[(page.lang, title)].append(url)
                 if len(title) > 70:
                     notes["title over 70 characters (may be truncated)"].append(f"{len(title)}: {url}")
+                if title.endswith(ELLIPSIS):
+                    notes["title ends in an ellipsis (cut off by the code?)"].append(f"{title[-60:]!r}: {url}")
             else:
                 issues["missing title"].append(url)
             if page.description:
                 descriptions[(page.lang, page.description)].append(url)
                 if len(page.description) > 160:
-                    notes["description over 160 characters (may be truncated)"].append(f"{len(page.description)}: {url}")
+                    notes["description over 160 characters (Google shortens it for display; fine if it ends on a whole sentence)"].append(
+                        f"{len(page.description)}: {url}")
+                if page.description.endswith(ELLIPSIS):
+                    notes["description ends in an ellipsis (cut mid-sentence?)"].append(f"{page.description[-60:]!r}: {url}")
             else:
                 issues["missing meta description"].append(url)
             h1s = sum(1 for level, _ in page.headings if level == 1)
@@ -426,6 +439,22 @@ def main():
                 continue
             if page_key not in alternates_of[target].values():
                 issues["hreflang without a return link"].append(f"{page_key} -> {target}")
+
+    # A link from one language version into another, other than to the page's own alternates
+    # (a language switcher), drops the reader into a language they didn't choose.
+    crossing = defaultdict(list)
+    for url, targets in links_from.items():
+        source = normal(url)
+        own = lang_of.get(source)
+        switcher = set(alternates_of.get(source, {}).values())
+        for target in targets:
+            other = lang_of.get(target)
+            if own and other and other != own and target not in switcher:
+                crossing[(own, other, target)].append(url)
+    for (own, other, target), sources in sorted(crossing.items(), key=lambda item: -len(item[1])):
+        more = f" and {len(sources) - 1} more" if len(sources) > 1 else ""
+        notes["internal link into another language (not a language switcher)"].append(
+            f"{own} -> {other}: {target}, from {sources[0]}{more}")
 
     not_crawled = set()
     for url, targets in links_from.items():

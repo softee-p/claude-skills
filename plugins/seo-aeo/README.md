@@ -28,7 +28,7 @@ claude plugin update seo-aeo@mkw-claude-plugins
 
 ## Cloud sessions
 
-A cloud session doesn't load plugins installed on your machine, or plugins that a repository's `.claude/settings.json` turns on. Try installing it from the cloud environment's setup script (Claude Code v2.1.292 or later). **This hasn't been tested in a cloud session yet:**
+A cloud session doesn't load plugins installed on your machine, or plugins that a repository's `.claude/settings.json` turns on. **Tested:** a plugin synced from claude.ai loads in a claude.ai cloud session, with its skills and agents; `site-audit` and `perf-audit` still start only from their slash commands. Without that, try installing it from the cloud environment's setup script (Claude Code v2.1.292 or later). **The setup script hasn't been tested yet:**
 
 ```bash
 #!/bin/bash
@@ -41,7 +41,7 @@ What each skill needs there:
 
 | Skill | In a cloud session |
 |---|---|
-| `site-audit`, `perf-audit` | Need the repository to build and serve locally in the session's VM. A real browser for `perf-audit` isn't guaranteed |
+| `site-audit`, `perf-audit` | Need the repository to build and serve locally in the session's VM. `site-audit`'s crawl and summary scripts ran there. A real browser for `perf-audit` isn't guaranteed; claude.ai cloud sessions have shipped with Chromium and Playwright |
 | `long-tail-questions`, `aeo-measure` | Need the exports committed or otherwise available in the session |
 | `agent-readiness` | `isitagentready.com` isn't on the default Trusted list, so add it with Custom network access |
 | `ai-readable-site` | Works for code changes; the checks need the local build |

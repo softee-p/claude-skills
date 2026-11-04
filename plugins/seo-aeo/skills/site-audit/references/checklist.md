@@ -9,7 +9,7 @@ Checked against the sources on 2026-11-04. Each rule names its source; the list 
 | T1 | Main content, navigation links, titles, canonicals and structured data are in the server's HTML. "Not all bots can run JavaScript." In December 2024 Vercel's data showed none of the major AI crawlers rendering it **(vendor, dated)** | js, vercel |
 | T2 | Links are `<a href>` with a real URL, not script events or `javascript:`. "Every page you care about should have a link from at least one other page" | links |
 | T3 | One canonical per page, self-referencing unless the page is a deliberate variant. JavaScript doesn't change it | js |
-| T4 | Missing pages return a real 404, with no soft 404s. Internal links point at the final URL, not at redirects or errors | js, move |
+| T4 | Missing pages return a real 404, with no soft 404s. Internal links point at the final URL, not at redirects or errors. On a translated page they also stay in its language, including links stored in a CMS or database | js, move |
 | T5 | `noindex` is deliberate, is off on production, and isn't set or removed by JavaScript | js |
 | T6 | `robots.txt` doesn't block search crawlers or the assets pages need, keeps private routes out, and names the sitemap. The sitemap lists each language's canonical URLs and no redirects | ai, move |
 | T7 | Each language version lists itself and all others. Return links exist on both sides, URLs are absolute, codes are valid, and `x-default` covers unmatched languages | hreflang |
@@ -32,7 +32,7 @@ Speed belongs to `/seo-aeo:perf-audit`, not this audit.
 | C2 | It's clear who is behind the content. Bylines are accurate where readers expect them, and no creator is fabricated | helpful |
 | C3 | Titles are descriptive and concise, end cleanly rather than cut off mid-phrase, and have no repeated keywords or boilerplate. The brand appears briefly at the start or end | title |
 | C4 | Title, H1 and description agree with each other **(vendor)** | ms |
-| C5 | Descriptions are unique to the page, say what's on it, read as complete sentences in the page's language, and aren't strings of keywords | snippet |
+| C5 | Descriptions are unique to the page, say what's on it, read as complete sentences in the page's language, and aren't strings of keywords. Google: "There's no limit on how long a meta description can be, but the snippet is truncated in Google Search results as needed", so a whole sentence a little over 160 characters beats one the code cuts with an ellipsis | snippet |
 | C6 | Headings are specific and work like chapter titles. Where people ask a question, the heading can be that question **(vendor)** | ms |
 | C7 | Under such a heading, the first one or two sentences answer it, and they make sense when lifted out on their own **(vendor)** | ms |
 | C8 | Claims are measurable: a specific figure, not "cutting-edge" **(vendor)** | ms |
